@@ -17,6 +17,16 @@ function install_fzf() {
   fi
 }
 
+function install_autojump() {
+  if brew_package_installed autojump ; then
+    echo "+ autojump is already installed"
+  else
+    echo "+ installing autojump..."
+
+    brew install autojump
+  fi
+}
+
 function install_base16_shell() {
   if [ ! -d ~/.config/base16-shell ]; then
     mkdir -p ~/.config
@@ -37,6 +47,7 @@ ln -sf ~/.dot-files/zshrc ~/.zshrc
 echo "setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
+install_autojump
 install_base16_shell
 select_base16_theme
 install_fzf

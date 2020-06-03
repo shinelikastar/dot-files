@@ -20,3 +20,6 @@ function parse_git_branch() {
  
 # Set prompt
 PROMPT="%~%F{green}\$(parse_git_branch)%f %% "
+
+# setup autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
