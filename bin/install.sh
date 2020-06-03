@@ -17,10 +17,26 @@ function install_fzf() {
   fi
 }
 
+function install_base16_shell() {
+  if [ ! -d ~/.config/base16-shell ]; then
+    mkdir -p ~/.config
+    git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+  else
+    echo "+ base16 already installed"
+  fi
+}
+
+function select_base16_theme() {
+  echo "+ selected base16 color theme"
+  ln -sf ~/.config/base16-shell/scripts/base16-oceanicnext.sh ~/.base16_theme
+}
+
 echo "setup .zshrc config"
 ln -sf ~/.dot-files/zshrc ~/.zshrc
 
 echo "setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
+install_base16_shell
+select_base16_theme
 install_fzf
