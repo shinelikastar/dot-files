@@ -11,7 +11,9 @@ function install_fzf() {
     echo "+ fzf is already installed"
   else
     echo "+ installing fzf..."
+
     brew install fzf
+    $(brew --prefix)/opt/fzf/install
   fi
 }
 
