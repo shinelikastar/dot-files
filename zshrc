@@ -3,6 +3,7 @@ alias 6="source $HOME/.zshrc"
 alias ..="cd .."
 alias ...="cd ../.."
 alias cl="clear"
+alias l="ls -la"
 
 # Allow prompts to have dynamic variables
 setopt PROMPT_SUBST

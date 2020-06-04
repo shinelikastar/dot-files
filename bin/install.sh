@@ -47,7 +47,11 @@ ln -sf ~/.dot-files/zshrc ~/.zshrc
 echo "setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
+echo "setup iterm2 preferences"
+ln -sf ~/Library/Preferences/com.googlecode.iterm2.plist ../iterm2/com.googlecode.iterm2.plist
+
+
+
 install_autojump
 install_base16_shell
-select_base16_theme
-install_fzf
+select_base16_themeinstall_fzf
