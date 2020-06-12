@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 alias 6="source $HOME/.zshrc"
 alias ..="cd .."
 alias ...="cd ../.."
@@ -24,6 +31,9 @@ setopt PROMPT_SUBST
 # Load zinit plugin
 [ -f ~/.zsh/zinit.zsh ] && source ~/.zsh/zinit.zsh
 
+# Setup Powerlevel 10K
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
 # Setup FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -42,3 +52,6 @@ PROMPT="%~%F{green}\$(parse_git_branch)%f %% "
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 export PATH="$PATH:$HOME/stripe/work/exe"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
