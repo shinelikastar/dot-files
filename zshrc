@@ -8,35 +8,46 @@ fi
 # =========== Import custom settings =============
 source ~/.dot-files/custom/aliases.zsh
 
-# Allow prompts to have dynamic variables
-setopt PROMPT_SUBST
-
 # Load any private settings
 [ -f ~/.zsh/private.zsh ] && source ~/.zsh/private.zsh
+
+
+# ============= Manage plugins ===================
 
 # Load zinit plugin
 [ -f ~/.zsh/zinit.zsh ] && source ~/.zsh/zinit.zsh
 
-# Setup Powerlevel 10K
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# Setup FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Load antigen plugin
+[ -f ~/antigen.zsh ] && source ~/antigen.zsh
 
 # Setup base16 color schemes
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+ 
+
+# ======== Prompt & other colorful things ========
+
+# Setup Powerlevel 10K
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# Allow prompts to have dynamic variables
+setopt PROMPT_SUBST
 
 function parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
- 
+
 # Set prompt
 PROMPT="%~%F{green}\$(parse_git_branch)%f %% "
 
-# setup autojump
+# Setup FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Setup autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
+# Setup Powerlevel 10K
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 export PATH="$PATH:$HOME/stripe/work/exe"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
