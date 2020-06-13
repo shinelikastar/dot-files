@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+function install_homebrew() {
+  which -s brew
+  if [[ $? != 0 ]] ; then
+  	echo "Installing homebrew"
+
+  	ruby -e "$(curl -fsSL \
+      		https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  else
+  	brew update
+  fi
+}
+
+
 function brew_package_installed() {
   local package=$1
 
@@ -41,6 +54,17 @@ function select_base16_theme() {
   ln -sf ~/.config/base16-shell/scripts/base16-oceanicnext.sh ~/.base16_theme
 }
 
+function install_nerd_font() {
+  FONT_FILE="/Library/Fonts/InconsolataGo Bold Nerd Font Complete Mono.ttf"
+  # Use double brackets to escape spaces in $FONT_FILE name
+  if [[ -f $FONT_FILE ]]; then
+    echo "+ inconsolata go already installed"
+  else 
+    echo "+ installing inconsolata go"
+    cd /Library/Fonts && curl -fLo "InconsolataGo Bold Nerd Font Complete Mono.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/InconsolataGo/Bold/complete/InconsolataGo%20Bold%20Nerd%20Font%20Complete%20Mono.ttf
+  fi
+}
+
 echo "setup .zshrc config"
 ln -sf ~/.dot-files/zshrc ~/.zshrc
 
@@ -48,10 +72,12 @@ echo "setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
 echo "setup iterm2 preferences"
-ln -sf ~/Library/Preferences/com.googlecode.iterm2.plist ../iterm2/com.googlecode.iterm2.plist
+ln -sf ~/Library/Preferences/com.googlecode.iterm2.plist ~/.dot-files/iterm2/com.googlecode.iterm2.plist
 
 
-
+install_homebrew
 install_autojump
 install_base16_shell
-select_base16_themeinstall_fzf
+select_base16_theme
+install_fzf
+install_nerd_font

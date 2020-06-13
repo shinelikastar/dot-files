@@ -5,22 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-alias 6="source $HOME/.zshrc"
-alias ..="cd .."
-alias ...="cd ../.."
-alias c="clear"
-alias l="ls -la"
-alias gco="git checkout"
-alias gp="git push"
-alias v="nvim"
-alias vim="nvim"
-
-# Git-related
-alias g="git"
-alias pull="git pull"
-
-# Work-related
-alias j3="cd ~/stripe/stripe-js-v3/"
+# =========== Import custom settings =============
+source ~/.dot-files/custom/aliases.zsh
 
 # Allow prompts to have dynamic variables
 setopt PROMPT_SUBST
