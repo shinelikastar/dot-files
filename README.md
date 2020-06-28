@@ -1,6 +1,4 @@
-# dot-files
-WIP
-
+# [WIP] dot-files
 
 ### Git-related
 - [ ] Create git config/aliases
