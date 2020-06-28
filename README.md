@@ -1,2 +1,11 @@
 # dot-files
-This repo holds my dotfiles and useful scripts that save me time.
+WIP
+
+
+### Git-related
+- [ ] Create git config/aliases
+- [ ] Automate git account setup
+
+### Vagrant
+- [ ] Script generation of Vagrant file
+- [ ] Automate dependency installs
