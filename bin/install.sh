@@ -100,6 +100,9 @@ ln -sf ~/.dot-files/zsh ~/.zsh
 dotsay "@white setup iterm2 preferences"
 ln -sf ~/Library/Preferences/com.googlecode.iterm2.plist ~/.dot-files/iterm2/com.googlecode.iterm2.plist
 
+dotsay "@white setup git preferences"
+ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
+
 
 install_homebrew
 install_autojump
@@ -109,3 +112,4 @@ install_fzf
 install_nerd_font
 install_antigen
 install_tmux
+brew install diff-so-fancy

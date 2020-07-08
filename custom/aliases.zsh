@@ -15,7 +15,7 @@ alias 6="source ~/.zshrc; clear;"
 # Git related
 alias g="git"
 alias gco="git checkout"
-alias gp="git push"
+alias gp="git push --force-with-lease"
 alias pull="git pull"
 
 # Text editing
