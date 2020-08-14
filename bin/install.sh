@@ -23,6 +23,15 @@ function brew_package_installed() {
   brew list "$package" > /dev/null 2>&1
 }
 
+function install_iterm2() {
+  if brew_package_installed iterm2 ; then
+    dotsay "@green + iterm2 is already installed"
+  else 
+    dotsay "@yellow + installing iterm2..."
+    brew cask install iterm2
+  fi
+}
+
 function install_fzf() {
   if brew_package_installed fzf ; then
     dotsay "@green + fzf is already installed"
@@ -105,6 +114,7 @@ ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 
 
 install_homebrew
+install_iterm2
 install_autojump
 install_base16_shell
 select_base16_theme
