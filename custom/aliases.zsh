@@ -25,3 +25,6 @@ alias vim="nvim"
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
 alias b="work begin"
+alias ps="cd ~/stripe/pay-server/"
+# Disable all warnings
+alias yarn start="yarn start -q"
