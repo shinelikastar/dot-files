@@ -13,15 +13,15 @@ then
 	tmux new-session -d -s $SESSION -c $PAY_SERVER
 
 	# Name first pane and start `pay tunnel`
-	tmux rename-window -t 0 'PAY UP'
+	tmux rename-window -t 1 'PAY UP'
 	tmux send-keys -t 'PAY UP' 'pay up' C-m
 
 	# Start second window with `yarn tunnel`
-	tmux new-window -t $SESSION:1 -n 'YARN TUNNEL'
+	tmux new-window -t $SESSION:2 -n 'YARN TUNNEL'
 	tmux send-keys -t 'YARN TUNNEL' 'cd ~/stripe/stripe-js-v3' C-m 'yarn tunnel' C-m
 
 	# Star third window with `yarn start --tunnel`
-	tmux new-window -t $SESSION:2 -n 'YARN START TUNNEL'
+	tmux new-window -t $SESSION:3 -n 'YARN START TUNNEL'
 	tmux send-keys -t 'YARN START TUNNEL' 'cd ~/stripe/stripe-js-v3' C-m 'yarn start --tunnel' C-m
  fi
 

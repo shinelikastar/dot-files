@@ -9,8 +9,8 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
 alias la="ls -la"
 
-alias dot="cd ~/.dot-files"
 alias 6="source ~/.zshrc; clear;"
+alias 0="tmux source-file ~/.tmux.conf"
 
 # Git related
 alias g="git"
@@ -33,7 +33,10 @@ function edit_alias() {
   cd ~/.dot-files/custom
   vim aliases.zsh
   6
+  cd -
 }
+
+alias dot="cd ~/.dot-files/"
 
 # Workflow related
 alias p="work pr show"
@@ -42,3 +45,6 @@ alias b="work begin"
 # Yarn stuff
 alias y="yarn" 
 alias fix="yarn run lint --fix && yarn run prettier"
+
+# Start up Devapp commands
+alias devapp="~/.dot-files/custom/start_devapp.zsh"
