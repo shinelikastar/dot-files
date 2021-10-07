@@ -1,0 +1,25 @@
+# ~/.tmuxinator/v3.yml
+
+name: v3
+root: ~/stripe/stripe-js-v3
+
+windows:
+  - main:
+      layout: 4ffa,185x47,0,0{115x47,0,0,6,69x47,116,0,8}
+      panes:
+        - vim
+        - #
+  - daemons:
+      layout: main-vertical
+      panes:
+        - yarn start --tunnel
+        - yarn tunnel
+  - shell:
+      layout: main-vertical
+      panes:
+        - #
+  - dotfiles:
+      layout: 4ffa,185x47,0,0{115x47,0,0,6,69x47,116,0,8}
+      panes:
+        - cd ~/.dot-files && vim
+        - #

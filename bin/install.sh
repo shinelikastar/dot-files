@@ -16,6 +16,25 @@ function install_homebrew() {
   fi
 }
 
+function install_tpm() {
+  if [ ! -d ~/.tmux/plugins/tpm ]; then
+    dotsay "@yellow + installing tpm..."
+    setenv -g TMUX_PLUGIN_MANAGER_PATH '$HOME/.tmux/plugins/'
+
+    mkdir -p  ~/.tmux/plugins/tpm
+    git clone git@github.com:tmux-plugins/tpm.git ~/.tmux/plugins/tpm
+
+    # install any plugins already in tmux.conf
+    local install_script="$HOME/.tmux/plugins/tpm/bin/install_plugins"
+
+    if [ -x $install_script ]; then
+      $install_script
+    fi
+  else
+    dotsay "@green + tpm is already installed"
+  fi
+}
+
 
 function brew_package_installed() {
   local package=$1
@@ -122,4 +141,5 @@ install_fzf
 install_nerd_font
 install_antigen
 install_tmux
+install_tpm
 brew install diff-so-fancy
