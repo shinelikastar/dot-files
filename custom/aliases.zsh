@@ -18,8 +18,8 @@ alias gco="git checkout"
 alias pull="git pull"
 
 # Text editing
-alias vim="neovim"
-alias v="neovim"
+alias vim="nvim"
+alias v="nvim"
 
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
