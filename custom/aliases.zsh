@@ -24,6 +24,7 @@ alias v="nvim"
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
 alias jb="cd ~/stripe-b/stripe-js-v3/"
+alias dashboot='pay start admin admin_assets justification justification_assets manage manage_ui_metro excelsior api api_rpc k8s_manifests token-issuer-srv'
 
 # Second dev box
 alias ps="cd ~/stripe/pay-server/"
