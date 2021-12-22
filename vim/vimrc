@@ -1,0 +1,19 @@
+syntax on
+syntax enable
+
+set mouse=a
+set wrap
+
+set number
+
+" lets Y yank to end of line
+nnoremap Y y$
+
+" remap esc to jk
+inoremap jk <Esc>
+
+" reload file if it changes on disk
+set autoread
+
+
+
