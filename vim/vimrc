@@ -15,5 +15,9 @@ inoremap jk <Esc>
 " reload file if it changes on disk
 set autoread
 
-
+" pretty highlighting on yank
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
 
