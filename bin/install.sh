@@ -126,11 +126,13 @@ dotsay "@white setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
 dotsay "@white setup iterm2 preferences"
-ln -sf ~/Library/Preferences/com.googlecode.iterm2.plist ~/.dot-files/iterm2/com.googlecode.iterm2.plist
+ln -sf ~/.dot-files/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 
 
 dotsay "@white setup git preferences"
 ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 
+dotsay "@white setup vim config"
+ln -sf ~/.dot-files/vim/.vimrc ~/.vimrc
 
 install_homebrew
 install_iterm2
