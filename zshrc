@@ -123,3 +123,8 @@ bindkey -M viins 'jk' vi-cmd-mode
 
 # To customize prompt, run `p10k configure` or edit ~/.dot-files/p10k.zsh.
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh
+source $HOME/.config/zsh-abbrev-alias/abbrev-alias.plugin.zsh
+
+# Setup FZF (this gotta stay at bottom idk why)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
