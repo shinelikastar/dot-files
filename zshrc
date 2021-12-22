@@ -110,6 +110,23 @@ source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export PATH="$PATH:$HOME/stripe/work/exe"
 
+_fzf_complete_git() {
+    ARGS="$@"
+    local branches
+    branches=$(git branch -vv --all)
+    if [[ $ARGS == 'g co'* ]]; then
+        _fzf_complete --reverse --multi -- "$@" < <(
+            echo $branches
+        )
+    else
+        eval "zle ${fzf_default_completion:-expand-or-complete}"
+    fi
+}
+
+_fzf_complete_git_post() {
+    awk '{print $1}'
+}
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
