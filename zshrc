@@ -98,6 +98,7 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export PATH="$PATH:$HOME/stripe/work/exe"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
