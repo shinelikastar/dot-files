@@ -85,13 +85,19 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting)
+plugins=(
+	git 
+	zsh-syntax-highlighting 
+	sudo
+	vi-mode
+)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -118,8 +124,6 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-bindkey -M viins 'jk' vi-cmd-mode
-
 # To customize prompt, run `p10k configure` or edit ~/.dot-files/p10k.zsh.
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh
 source $HOME/.config/zsh-abbrev-alias/abbrev-alias.plugin.zsh
@@ -129,4 +133,6 @@ source ~/.dot-files/custom/aliases.zsh
 
 # Setup FZF (this gotta stay at bottom idk why)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+bindkey -M viins 'jk' vi-cmd-mode
 
