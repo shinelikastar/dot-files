@@ -107,7 +107,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export PATH="$PATH:$HOME/stripe/work/exe"
 
@@ -164,4 +164,7 @@ source ~/.dot-files/custom/aliases.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey -M viins 'jk' vi-cmd-mode
+
+# bind zsh-autosuggestion to tab key
+bindkey '^I' autosuggest-accept
 
