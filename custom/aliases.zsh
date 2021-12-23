@@ -9,7 +9,7 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
 abbrev-alias la="ls -la"
 
-alias 6="source ~/.zshrc; clear;"
+alias 6="source ~/.zshrc;"
 alias 0="tmux source-file ~/.tmux.conf"
 
 # Git related
@@ -23,14 +23,14 @@ alias v="nvim"
 
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
-alias jb="cd ~/stripe-b/stripe-js-v3/"
+alias ps="cd ~/stripe/pay-server/"
 alias dashboot='pay start admin admin_assets justification justification_assets manage manage_ui_metro excelsior api api_rpc k8s_manifests token-issuer-srv'
 
 # Second dev box
-alias ps="cd ~/stripe/pay-server/"
-alias pb="cd ~/stripe-b/pay-server/"
+abbrev-alias jb="cd ~/stripe-b/stripe-js-v3/"
+abbrev-alias pb="cd ~/stripe-b/pay-server/"
 
-# Open this file without fuss
+# Edit this file without fuss
 function edit_alias() {
   cd ~/.dot-files/custom
   vim aliases.zsh
@@ -46,7 +46,5 @@ alias b="work begin"
 
 # Yarn stuff
 alias y="yarn" 
-alias fix="yarn run lint --fix && yarn run prettier"
+abbrev-alias fix="yarn run lint --fix && yarn run prettier"
 
-# Start up Devapp commands
-alias devapp="~/.dot-files/custom/start_devapp.zsh"
