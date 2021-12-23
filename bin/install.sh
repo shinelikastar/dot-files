@@ -48,6 +48,9 @@ function install_iterm2() {
   else 
     dotsay "@yellow + installing iterm2..."
     brew cask install iterm2
+
+    dotsay "@yellow + setting iterm2 as default shell..."
+    sudo chsh -s $(which zsh) $USER
   fi
 }
 
@@ -66,10 +69,22 @@ function install_autojump() {
   if brew_package_installed autojump ; then
     dotsay "@green + autojump is already installed"
   else
-    dotsay "@yellow + installing autojump..."
+    dotsay "@magenta + installing autojump..."
 
     brew install autojump
   fi
+}
+
+function install_ohmyzsh() {
+  dotsay "@yellow + installing ohmyzsh..."
+
+  git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
+}
+
+function install_zsh_autosuggestions() {
+  dotsay "@yellow + installing zsh_autosuggestions..."
+
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 function install_base16_shell() {
@@ -97,19 +112,6 @@ function install_nerd_font() {
   fi
 }
 
-function install_antigen() {
-  if [ ! -f ~/antigen.zsh ]; then
-    dotsay "@yellow + installing antigen..."
-    curl -L git.io/antigen > antigen.zsh
-    
-    source ~/.zshrc
-    antigen bundle zsh-users/zsh-completions
-    antigen bundle zdharma/fast-syntax-highlighting
-  else
-    dotsay "@green + antigen already installed"
-  fi
-}
-
 function install_tmux() {
   if brew_package_installed tmux; then
     dotsay "@green + tmux already installed"
@@ -131,8 +133,8 @@ ln -sf ~/.dot-files/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com
 dotsay "@white setup git preferences"
 ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 
-dotsay "@white setup vim config"
-ln -sf ~/.dot-files/vim/.vimrc ~/.vimrc
+dotsay "@white setup neovim config"
+ln -sf ~/.dot-files/nvim/.nvimrc ~/.nvimrc
 
 install_homebrew
 install_iterm2
@@ -141,7 +143,8 @@ install_base16_shell
 select_base16_theme
 install_fzf
 install_nerd_font
-install_antigen
+install_ohmyzsh
+install_zsh_autosuggestions
 install_tmux
 install_tpm
 brew install diff-so-fancy
