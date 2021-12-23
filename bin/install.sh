@@ -87,6 +87,18 @@ function install_zsh_autosuggestions() {
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
+function install_zsh_syntax_highlighting() {
+  dotsay "@yellow + zsh_syntax_highlighting..."
+
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+}
+
+function install_abbrev_alias() {
+  dotsay "@yellow + abbrev_alias..."
+
+  git clone https://github.com/momo-lab/zsh-abbrev-alias ~/.config/zsh-abbrev-alias/
+}
+
 function install_base16_shell() {
   if [ ! -d ~/.config/base16-shell ]; then
     mkdir -p ~/.config
@@ -144,7 +156,9 @@ select_base16_theme
 install_fzf
 install_nerd_font
 install_ohmyzsh
+install_abbrev_alias
 install_zsh_autosuggestions
+install_zsh_syntax_highlighting
 install_tmux
 install_tpm
 brew install diff-so-fancy
