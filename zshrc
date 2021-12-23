@@ -99,6 +99,7 @@ plugins=(
 	git 
 	sudo
 	vi-mode
+	zsh-autosuggestions
 	zsh-syntax-highlighting 
 )
 
