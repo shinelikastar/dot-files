@@ -48,3 +48,12 @@ alias b="work begin"
 alias y="yarn" 
 abbrev-alias fix="yarn run lint --fix && yarn run prettier"
 
+WEBSITE="/Library/WebServer/Documents/shinelikastar.github.io"
+alias w="cd $WEBSITE"
+
+deploy () {
+  cd $WEBSITE
+  sudo npm --prefix star-site/ run deploy
+  cd $OLDPWD
+}
+
