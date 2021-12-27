@@ -107,10 +107,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export PATH="$PATH:$HOME/stripe/work/exe"
 
+# Enable git branch fzf search with "g co ** <TAB>"
 _fzf_complete_git() {
     ARGS="$@"
     local branches
@@ -155,6 +155,7 @@ _fzf_complete_git_post() {
 
 # To customize prompt, run `p10k configure` or edit ~/.dot-files/p10k.zsh.
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh
+
 source $HOME/.config/zsh-abbrev-alias/abbrev-alias.plugin.zsh
 
 # =========== Import custom settings =============
@@ -163,8 +164,13 @@ source ~/.dot-files/custom/aliases.zsh
 # Setup FZF (this gotta stay at bottom idk why)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+autoload -Uz compinit
+compinit
+
+# enable vi-mode with 'jk'
 bindkey -M viins 'jk' vi-cmd-mode
 
 # bind zsh-autosuggestion to tab key
 bindkey '^I' autosuggest-accept
 
+eval "$(rbenv init - zsh)"

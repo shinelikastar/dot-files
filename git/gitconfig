@@ -153,3 +153,6 @@
 	email = starsu@stripe.com
 [hub]
 	protocol = ssh
+[work "features"]
+	gh = true
+	gh = true
