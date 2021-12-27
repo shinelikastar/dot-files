@@ -170,7 +170,7 @@ compinit
 # enable vi-mode with 'jk'
 bindkey -M viins 'jk' vi-cmd-mode
 
-# bind zsh-autosuggestion to tab key
-bindkey '^I' autosuggest-accept
+# bind zsh-autosuggestion to CMD-space
+bindkey '^ ' autosuggest-accept
 
 eval "$(rbenv init - zsh)"
