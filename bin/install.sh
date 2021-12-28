@@ -65,6 +65,16 @@ function install_fzf() {
   fi
 }
 
+function install_ripgrep() {
+  if brew_package_installed ripgrep ; then
+    dotsay "@green + ripgrep is already installed"
+  else
+    dotsay "@magenta + installing ripgrep..."
+
+    brew install ripgrep
+  fi
+}
+
 function install_autojump() {
   if brew_package_installed autojump ; then
     dotsay "@green + autojump is already installed"
@@ -146,9 +156,10 @@ dotsay "@white setup git preferences"
 ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 
 dotsay "@white setup neovim config"
-ln -sf ~/.dot-files/nvim/.nvimrc ~/.nvimrc
+ln -sf ~/.dot-files/nvim ~/.config/nvim
 
 install_homebrew
+install_ripgrep
 install_iterm2
 install_autojump
 install_base16_shell
