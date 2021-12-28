@@ -12,10 +12,18 @@ abbrev-alias la="ls -la"
 alias 6="source ~/.zshrc;"
 alias 0="tmux source-file ~/.tmux.conf"
 
+# Edit this file without fuss
+function edit_alias() {
+  cd ~/.dot-files/custom
+  vim aliases.zsh
+  6
+  cd -
+}
+
+alias dot="cd ~/.dot-files/"
+
 # Git related
 alias g="git"
-alias gco="git checkout"
-alias pull="git pull"
 
 # Text editing
 alias vim="nvim"
@@ -29,16 +37,6 @@ alias dashboot='pay start admin admin_assets justification justification_assets 
 # Second dev box
 abbrev-alias jb="cd ~/stripe-b/stripe-js-v3/"
 abbrev-alias pb="cd ~/stripe-b/pay-server/"
-
-# Edit this file without fuss
-function edit_alias() {
-  cd ~/.dot-files/custom
-  vim aliases.zsh
-  6
-  cd -
-}
-
-alias dot="cd ~/.dot-files/"
 
 # Workflow related
 alias p="work pr show"
