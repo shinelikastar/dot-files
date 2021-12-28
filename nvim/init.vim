@@ -36,6 +36,9 @@ augroup END
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
 
+" Editing
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
 
@@ -111,3 +114,29 @@ noremap <C-p> :call fzf#vim#files('', { 'source': g:FzfFilesSource(),
 set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
+
+" ================== treesitter =================
+
+lua <<LUA
+require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    'bash',
+    'css',
+    'go',
+    'graphql',
+    'javascript',
+    'json',
+    'lua',
+    'nix',
+    'php',
+    'python',
+    'ruby',
+    'tsx',
+    'typescript',
+    'yaml',
+  },
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+  textobjects = { enable = true },
+}
+LUA
