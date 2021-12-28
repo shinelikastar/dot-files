@@ -27,6 +27,10 @@ inoremap jk <Esc>
 "reload file if it changes on disk
 set autoread
 
+" set mapleader
+let mapleader=","
+let g:mapleader=","
+
 "enable pretty highlighting on yank
 augroup highlight_yank
     autocmd!
@@ -38,9 +42,15 @@ call plug#begin('~/.local/nvim/plugins')
 
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
+
+" Git
+Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
+Plug 'tpope/vim-fugitive'       " the git plugin
+Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
 
 " Fuzzy finder
 Plug 'junegunn/fzf'
@@ -115,6 +125,13 @@ set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
 
+" Fix :Gbrowse, etc in fugitive
+let g:github_enterprise_urls = ['https://git.corp.stripe.com']
+
+" =============== version control ================
+
+vnoremap <leader>g :GBrowse!<CR>
+
 " ================== treesitter =================
 
 lua <<LUA
@@ -140,3 +157,16 @@ require('nvim-treesitter.configs').setup {
   textobjects = { enable = true },
 }
 LUA
+
+" ================ lightspeed =================
+lua <<LUA
+require('lightspeed').setup({
+  jump_on_partial_input_safety_timeout = 400,
+  highlight_unique_chars = false,
+  grey_out_search_area = true,
+  match_only_the_start_of_same_char_seqs = true,
+  limit_ft_matches = 5,
+})
+LUA
+
+nmap s <Plug>Lightspeed_s
