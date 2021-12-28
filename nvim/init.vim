@@ -43,6 +43,7 @@ call plug#begin('~/.local/nvim/plugins')
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
+Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
