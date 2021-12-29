@@ -1,12 +1,12 @@
-syntax on			"syntax highlighting
+syntax on				"syntax highlighting
 syntax enable			"use system color scheme
 
 set mouse=a
 set nowrap
 set linebreak
-set number			"show line number
-set showmode                    "show current mode down the bottom
-set undolevels=1000             "undo levels
+set number				"show line number
+set showmode			"show current mode down the bottom
+set undolevels=1000		"undo levels
 
 " Indentation
 set autoindent 			"copy indent from current line when starting a new line
@@ -31,7 +31,7 @@ set autoread
 let mapleader=","
 let g:mapleader=","
 
-"enable pretty highlighting on yank
+" enable pretty highlighting on yank
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
@@ -44,6 +44,8 @@ call plug#begin('~/.local/nvim/plugins')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
 Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
+Plug 'tpope/vim-repeat'               " better . for plugins
+Plug 'liuchengxu/vim-which-key'		  " display leader keys
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
@@ -63,7 +65,7 @@ Plug 'melonmanchan/vim-tmux-resizer'   " lets you resize Vim windows with alt+hj
 
 call plug#end()
 
-" =============== Color scheme =======================
+" =============== Color scheme ==============
 
 set termguicolors
 colorscheme nightfly
