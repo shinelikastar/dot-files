@@ -1,18 +1,22 @@
-syntax on				"syntax highlighting
-syntax enable			"use system color scheme
+syntax on								"syntax highlighting
+syntax enable						"use system color scheme
 
 set mouse=a
 set nowrap
 set linebreak
-set number				"show line number
-set showmode			"show current mode down the bottom
-set undolevels=1000		"undo levels
+set number							"show line number
+set showmode						"show current mode down the bottom
+set undolevels=1000			"undo levels
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15		"min number of columns to keep to right of cursor 
+set sidescroll=1				"min number of columns to scroll horizontally:w
 
 " Indentation
-set autoindent 			"copy indent from current line when starting a new line
-set tabstop=2 			"number of space on a <Tab> character
-set shiftwidth=2		"let indent correspond to a single Tab
-set softtabstop=2		"inserts combo of space and tab to simulate tabstop
+set autoindent					"copy indent from current line when starting a new line
+set tabstop=2						"number of space on a <Tab> character
+set shiftwidth=2				"let indent correspond to a single Tab
+set softtabstop=2				"inserts combo of space and tab to simulate tabstop
 set smarttab
 
 "stash yanked area into OSX clipboard
@@ -20,6 +24,10 @@ set clipboard=unnamed
 
 "enable Y yank to end of line
 nnoremap Y y$
+
+" create window splits with vv and ss
+nnoremap <silent> vv <C-w>v
+nnoremap <silent> ss <C-w>s
 
 "remap ESC to jk
 inoremap jk <Esc>
@@ -49,6 +57,7 @@ call plug#begin('~/.local/nvim/plugins')
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'drzel/vim-line-no-indicator'   " nice scroll indicator
 
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
@@ -188,6 +197,7 @@ let g:github_enterprise_urls = ['https://git.corp.stripe.com']
 
 " =============== version control ================
 
+" get GHE link of selected lines
 vnoremap <leader>g :GBrowse!<CR>
 
 " ================== lualine =================
