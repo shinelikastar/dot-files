@@ -58,15 +58,20 @@ Plug 'tpope/vim-repeat'               " better . for plugins
 Plug 'liuchengxu/vim-which-key'				" display leader keys
 Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
 
+" Fuzzy finder + grep
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'		" grepping through files
+
 " Git
 Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
 Plug 'tpope/vim-fugitive'       " the git plugin
 Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
 
-" Fuzzy finder + grep
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'		" grepping through files
+" Javascript
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'dense-analysis/ale'
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
@@ -259,6 +264,38 @@ cnoreabbrev Ack Ack!
 
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
+
+" =================== ALE =======================
+
+" ALE config
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '▲'
+
+" automatically lint and fix on save
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+
+" only run the linters we specify
+let g:ale_linters_explicit = 1
+
+let g:ale_linters = {
+\ 'javascript': ['eslint'],
+\ 'javascript.jsx': ['eslint'],
+\ 'typescript': ['eslint'],
+\ 'typescript.tsx': ['eslint'],
+\ 'ruby': ['rubocop'],
+\}
+
+let g:ale_fixers = {
+\ 'javascript': ['prettier', 'eslint'],
+\ 'javascript.jsx': ['prettier', 'eslint'],
+\ 'typescript': ['eslint'],
+\ 'typescript.tsx': ['eslint'],
+\ 'ruby': ['rubocop'],
+\}
+
+nnoremap <silent> gj :ALENext<cr>
+nnoremap <silent> gk :ALEPrevious<cr>
 
 " ============= Private config ===============
 
