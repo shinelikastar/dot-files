@@ -211,9 +211,23 @@ require'lualine'.setup {
     always_divide_middle = true,
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+		lualine_a = {'mode'},
+		lualine_b = {
+			{
+				'tabs',
+				max_length = vim.o.columns / 3, -- maximum width of tabs component
+																				-- can also be a function that returns value of max_length dynamicaly
+				mode = 2, -- 0  shows tab_nr
+									-- 1  shows tab_name
+									-- 2  shows tab_nr + tab_name
+				tabs_color = {
+					active = 'lualine_{section}_normal',   -- color for active tab
+					inactive = 'lualine_{section}_inactive', -- color for inactive tab
+				},
+			}
+		},
+    lualine_c = {'branch', 'diff', 'diagnostics'},
+    lualine_d = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
