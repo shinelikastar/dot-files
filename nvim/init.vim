@@ -55,9 +55,10 @@ Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
 Plug 'tpope/vim-fugitive'       " the git plugin
 Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
 
-" Fuzzy finder
+" Fuzzy finder + grep
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'		" grepping through files
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'  " makes ctrl+hjkl jump to Tmux panes and back
@@ -173,3 +174,12 @@ require('lightspeed').setup({
 LUA
 
 nmap s <Plug>Lightspeed_s
+
+" ============= ripgrep ======================
+
+let g:ackprg = 'rg --vimgrep --no-heading'
+
+cnoreabbrev Ack Ack!
+
+nnoremap <Leader>a :Ack!<Space>
+nnoremap <Leader>A :Ack!<CR>

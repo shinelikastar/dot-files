@@ -75,6 +75,16 @@ function install_ripgrep() {
   fi
 }
 
+function install_ack() {
+  if brew_package_installed ack ; then
+    dotsay "@green + ack is already installed"
+  else
+    dotsay "@magenta + installing ack..."
+
+    brew install ack
+  fi
+}
+
 function install_autojump() {
   if brew_package_installed autojump ; then
     dotsay "@green + autojump is already installed"
@@ -160,6 +170,7 @@ ln -sf ~/.dot-files/nvim ~/.config/nvim
 
 install_homebrew
 install_ripgrep
+install_ack
 install_iterm2
 install_autojump
 install_base16_shell
