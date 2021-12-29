@@ -47,20 +47,16 @@ endfunction
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
 
+" Colors
+Plug 'bluz71/vim-nightfly-guicolors'
+
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
 Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'               " better . for plugins
-Plug 'liuchengxu/vim-which-key'		  " display leader keys
-
-" Colors
-Plug 'bluz71/vim-nightfly-guicolors'
-
-" Status bar
-Plug 'nvim-lualine/lualine.nvim'
-" If you want to have icons in your statusline choose one of these
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'liuchengxu/vim-which-key'				" display leader keys
+Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
 
 " Git
 Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
@@ -72,13 +68,22 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'		" grepping through files
 
+" Status bar
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'		" display icons
+
+" Tests
+Plug 'preservim/vimux'
+Plug 'janko-m/vim-test'
+
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'  " makes ctrl+hjkl jump to Tmux panes and back
 Plug 'melonmanchan/vim-tmux-resizer'   " lets you resize Vim windows with alt+hjkl
 
+" Load Stripe-specific private plugins
+call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
+
 call plug#end()
-
-
 
 " =============== Color scheme ==============
 
@@ -134,6 +139,31 @@ noremap <C-p> :call fzf#vim#files('', { 'source': g:FzfFilesSource(),
       \ 'options': [
       \   '--tiebreak=index', '--preview', g:fzf_preview_cmd
       \  ]})<CR><CR>
+
+" ================= vim-test =====================
+
+nmap <silent> <leader>T :TestNearest<CR>
+nmap <silent> <leader>t :TestFile<CR>
+
+let g:test#preserve_screen = 1
+let test#neovim#term_position = "vert"
+let test#vim#term_position = "vert"
+
+let g:test#javascript#mocha#file_pattern = '\v.*_test\.(js|jsx|ts|tsx)$'
+
+if exists('$TMUX')
+  " Use tmux to kick off tests if we are in tmux currently
+  let test#strategy = 'vimux'
+else
+  " Fallback to using terminal split
+  let test#strategy = "neovim"
+endif
+
+let test#enabled_runners = ["lua#busted", "ruby#rspec"]
+
+let test#custom_runners = {}
+let test#custom_runners['ruby'] = ['rspec']
+let test#custom_runners['lua'] = ['busted']
 
 " =============== Tmux =========================
 
@@ -229,3 +259,9 @@ cnoreabbrev Ack Ack!
 
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
+
+" ============= Private config ===============
+
+" Load Stripe-specific private config
+call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
+
