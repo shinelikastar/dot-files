@@ -71,11 +71,13 @@ Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
 " Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'dense-analysis/ale'
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'		" display icons
+
+" Syntax checking
+Plug 'dense-analysis/ale'
 
 " Tests
 Plug 'preservim/vimux'
@@ -94,6 +96,9 @@ call plug#end()
 
 set termguicolors
 colorscheme nightfly
+
+" underline matching parens
+let g:nightflyUnderlineMatchParen = 1
 
 " =============== FZF =======================
 
