@@ -268,7 +268,7 @@ nnoremap <Leader>A :Ack!<CR>
 " =================== ALE =======================
 
 " ALE config
-let g:ale_sign_error = '✘'
+let g:ale_sign_error = '●'
 let g:ale_sign_warning = '▲'
 
 " automatically lint and fix on save
