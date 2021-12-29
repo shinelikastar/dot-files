@@ -57,7 +57,6 @@ call plug#begin('~/.local/nvim/plugins')
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'drzel/vim-line-no-indicator'   " nice scroll indicator
 
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
