@@ -10,9 +10,9 @@ set undolevels=1000		"undo levels
 
 " Indentation
 set autoindent 			"copy indent from current line when starting a new line
-set tabstop=4 			"number of space on a <Tab> character
-set shiftwidth=4		"let indent correspond to a single Tab
-set softtabstop=4		"inserts combo of space and tab to simulate tabstop
+set tabstop=2 			"number of space on a <Tab> character
+set shiftwidth=2		"let indent correspond to a single Tab
+set softtabstop=2		"inserts combo of space and tab to simulate tabstop
 set smarttab
 
 "stash yanked area into OSX clipboard
