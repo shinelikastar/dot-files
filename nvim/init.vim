@@ -37,6 +37,13 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
 
+" function to source a file if it exists
+function! SourceIfExists(file)
+  if filereadable(expand(a:file))
+    exe 'source' a:file
+  endif
+endfunction
+
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
 
@@ -49,6 +56,11 @@ Plug 'liuchengxu/vim-which-key'		  " display leader keys
 
 " Colors
 Plug 'bluz71/vim-nightfly-guicolors'
+
+" Status bar
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Git
 Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
@@ -65,6 +77,8 @@ Plug 'christoomey/vim-tmux-navigator'  " makes ctrl+hjkl jump to Tmux panes and 
 Plug 'melonmanchan/vim-tmux-resizer'   " lets you resize Vim windows with alt+hjkl
 
 call plug#end()
+
+
 
 " =============== Color scheme ==============
 
@@ -135,6 +149,38 @@ let g:github_enterprise_urls = ['https://git.corp.stripe.com']
 " =============== version control ================
 
 vnoremap <leader>g :GBrowse!<CR>
+
+" ================== lualine =================
+lua << END
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'material',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+END
 
 " ================== treesitter =================
 
