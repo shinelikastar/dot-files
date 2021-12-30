@@ -1,16 +1,19 @@
+""""""""""""""""""""""""""""""""""""""""
+" General Settings
+""""""""""""""""""""""""""""""""""""""""
 syntax on								"syntax highlighting
-syntax enable						"use system color scheme
-
 set mouse=a
 set nowrap
 set linebreak
 set number							"show line number
 set showmode						"show current mode down the bottom
 set undolevels=1000			"undo levels
-
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15		"min number of columns to keep to right of cursor 
 set sidescroll=1				"min number of columns to scroll horizontally:w
+set splitright          "puts new vsplit windows to the right of the current
+set splitbelow          "puts new split windows to the bottom of the current
+set history=1000        "store a ton of history (default is 20)
 
 " Indentation
 set autoindent					"copy indent from current line when starting a new line
@@ -19,8 +22,11 @@ set shiftwidth=2				"let indent correspond to a single Tab
 set softtabstop=2				"inserts combo of space and tab to simulate tabstop
 set smarttab
 
-"stash yanked area into OSX clipboard
-set clipboard=unnamed
+set clipboard=unnamed		"stash yanked area in clipboard
+
+""""""""""""""""""""""""""""""""""""""""
+" Custom mappings
+""""""""""""""""""""""""""""""""""""""""
 
 "enable Y yank to end of line
 nnoremap Y y$
@@ -42,7 +48,7 @@ let g:mapleader=","
 " enable pretty highlighting on yank
 augroup highlight_yank
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=500}
 augroup END
 
 " function to source a file if it exists
@@ -51,6 +57,10 @@ function! SourceIfExists(file)
     exe 'source' a:file
   endif
 endfunction
+
+""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""
 
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
@@ -65,16 +75,17 @@ Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'               " better . for plugins
 Plug 'liuchengxu/vim-which-key'				" display leader keys
 Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
+Plug 'tpope/vim-projectionist'				" alternate between implementation/test files with AS/AV
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'		" grepping through files
+Plug 'mileszs/ack.vim'								" grepping through files
 
 " Git
-Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
-Plug 'tpope/vim-fugitive'       " the git plugin
-Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
+Plug 'airblade/vim-gitgutter'					" show changed line marks in gutter
+Plug 'tpope/vim-fugitive'							" the git plugin
+Plug 'tpope/vim-rhubarb'							" enable GHE/Github links with :Gbrowse
 
 " Javascript
 Plug 'pangloss/vim-javascript'
@@ -86,6 +97,16 @@ Plug 'kyazdani42/nvim-web-devicons'		" display icons
 
 " Syntax checking
 Plug 'dense-analysis/ale'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'						" hot autocompletion plugin
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" Snippets
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 
 " Tests
 Plug 'preservim/vimux'
@@ -100,7 +121,9 @@ call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
 
 call plug#end()
 
-" =============== Color scheme ==============
+""""""""""""""""""""""""""""""""""""""""
+" Colors
+""""""""""""""""""""""""""""""""""""""""
 
 set termguicolors
 colorscheme nightfly
@@ -108,7 +131,9 @@ colorscheme nightfly
 " underline matching parens
 let g:nightflyUnderlineMatchParen = 1
 
-" =============== FZF =======================
+""""""""""""""""""""""""""""""""""""""""
+" FZF
+""""""""""""""""""""""""""""""""""""""""
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -158,7 +183,9 @@ noremap <C-p> :call fzf#vim#files('', { 'source': g:FzfFilesSource(),
       \   '--tiebreak=index', '--preview', g:fzf_preview_cmd
       \  ]})<CR><CR>
 
-" ================= vim-test =====================
+""""""""""""""""""""""""""""""""""""""""
+" vim-test
+""""""""""""""""""""""""""""""""""""""""
 
 nmap <silent> <leader>T :TestNearest<CR>
 nmap <silent> <leader>t :TestFile<CR>
@@ -183,7 +210,9 @@ let test#custom_runners = {}
 let test#custom_runners['ruby'] = ['rspec']
 let test#custom_runners['lua'] = ['busted']
 
-" =============== Tmux =========================
+""""""""""""""""""""""""""""""""""""""""
+" Tmux
+""""""""""""""""""""""""""""""""""""""""
 
 " set our shell to be bash for fast tmux switching times
 " see: https://github.com/christoomey/vim-tmux-navigator/issues/72
@@ -191,15 +220,16 @@ set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
 
-" Fix :Gbrowse, etc in fugitive
-let g:github_enterprise_urls = ['https://git.corp.stripe.com']
-
-" =============== version control ================
+""""""""""""""""""""""""""""""""""""""""
+" Git
+""""""""""""""""""""""""""""""""""""""""
 
 " get GHE link of selected lines
 vnoremap <leader>g :GBrowse!<CR>
 
-" ================== lualine =================
+""""""""""""""""""""""""""""""""""""""""
+" Lualine
+""""""""""""""""""""""""""""""""""""""""
 lua << END
 require'lualine'.setup {
   options = {
@@ -245,8 +275,10 @@ require'lualine'.setup {
 }
 END
 
-" ================== treesitter =================
 
+""""""""""""""""""""""""""""""""""""""""
+" treesitter
+""""""""""""""""""""""""""""""""""""""""
 lua <<LUA
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -271,7 +303,10 @@ require('nvim-treesitter.configs').setup {
 }
 LUA
 
-" ================ lightspeed =================
+
+""""""""""""""""""""""""""""""""""""""""
+" lightspeed
+""""""""""""""""""""""""""""""""""""""""
 lua <<LUA
 require('lightspeed').setup({
   jump_on_partial_input_safety_timeout = 400,
@@ -284,7 +319,9 @@ LUA
 
 nmap s <Plug>Lightspeed_s
 
-" ============= ripgrep ======================
+""""""""""""""""""""""""""""""""""""""""
+" ripgrep
+""""""""""""""""""""""""""""""""""""""""
 
 let g:ackprg = 'rg --vimgrep --no-heading'
 
@@ -293,7 +330,10 @@ cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
 
-" =================== ALE =======================
+
+""""""""""""""""""""""""""""""""""""""""
+" ALE
+""""""""""""""""""""""""""""""""""""""""
 
 " ALE config
 let g:ale_sign_error = '●'
@@ -325,7 +365,74 @@ let g:ale_fixers = {
 nnoremap <silent> gj :ALENext<cr>
 nnoremap <silent> gk :ALEPrevious<cr>
 
-" ============= Private config ===============
+""""""""""""""""""""""""""""""""""""""""
+" nvim-cmp
+""""""""""""""""""""""""""""""""""""""""
+set completeopt=menu,menuone,noselect
+
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    mapping = {
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+	--require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+    --capabilities = capabilities
+  --}
+
+EOF
+""""""""""""""""""""""""""""""""""""""""
+" Private config
+""""""""""""""""""""""""""""""""""""""""
 
 " Load Stripe-specific private config
 call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
