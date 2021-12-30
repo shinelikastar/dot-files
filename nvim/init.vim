@@ -1,13 +1,14 @@
+""""""""""""""""""""""""""""""""""""""""
+" General Settings
+""""""""""""""""""""""""""""""""""""""""
 syntax on								"syntax highlighting
 syntax enable						"use system color scheme
-
 set mouse=a
 set nowrap
 set linebreak
 set number							"show line number
 set showmode						"show current mode down the bottom
 set undolevels=1000			"undo levels
-
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15		"min number of columns to keep to right of cursor 
 set sidescroll=1				"min number of columns to scroll horizontally:w
@@ -21,6 +22,10 @@ set smarttab
 
 "stash yanked area into OSX clipboard
 set clipboard=unnamed
+
+""""""""""""""""""""""""""""""""""""""""
+" Custom mappings
+""""""""""""""""""""""""""""""""""""""""
 
 "enable Y yank to end of line
 nnoremap Y y$
@@ -51,6 +56,10 @@ function! SourceIfExists(file)
     exe 'source' a:file
   endif
 endfunction
+
+""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""
 
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
@@ -100,15 +109,19 @@ call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
 
 call plug#end()
 
-" =============== Color scheme ==============
 
+""""""""""""""""""""""""""""""""""""""""
+" Colors
+""""""""""""""""""""""""""""""""""""""""
 set termguicolors
 colorscheme nightfly
 
 " underline matching parens
 let g:nightflyUnderlineMatchParen = 1
 
-" =============== FZF =======================
+""""""""""""""""""""""""""""""""""""""""
+" FZF
+""""""""""""""""""""""""""""""""""""""""
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -158,8 +171,9 @@ noremap <C-p> :call fzf#vim#files('', { 'source': g:FzfFilesSource(),
       \   '--tiebreak=index', '--preview', g:fzf_preview_cmd
       \  ]})<CR><CR>
 
-" ================= vim-test =====================
-
+""""""""""""""""""""""""""""""""""""""""
+" vim-test
+""""""""""""""""""""""""""""""""""""""""
 nmap <silent> <leader>T :TestNearest<CR>
 nmap <silent> <leader>t :TestFile<CR>
 
@@ -183,7 +197,9 @@ let test#custom_runners = {}
 let test#custom_runners['ruby'] = ['rspec']
 let test#custom_runners['lua'] = ['busted']
 
-" =============== Tmux =========================
+""""""""""""""""""""""""""""""""""""""""
+" Tmux
+""""""""""""""""""""""""""""""""""""""""
 
 " set our shell to be bash for fast tmux switching times
 " see: https://github.com/christoomey/vim-tmux-navigator/issues/72
@@ -194,12 +210,16 @@ let g:tmux_resizer_no_mappings = 0
 " Fix :Gbrowse, etc in fugitive
 let g:github_enterprise_urls = ['https://git.corp.stripe.com']
 
-" =============== version control ================
+""""""""""""""""""""""""""""""""""""""""
+" Git
+""""""""""""""""""""""""""""""""""""""""
 
 " get GHE link of selected lines
 vnoremap <leader>g :GBrowse!<CR>
 
-" ================== lualine =================
+""""""""""""""""""""""""""""""""""""""""
+" Lualine
+""""""""""""""""""""""""""""""""""""""""
 lua << END
 require'lualine'.setup {
   options = {
@@ -245,8 +265,9 @@ require'lualine'.setup {
 }
 END
 
-" ================== treesitter =================
-
+""""""""""""""""""""""""""""""""""""""""
+" treesitter
+""""""""""""""""""""""""""""""""""""""""
 lua <<LUA
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -271,7 +292,9 @@ require('nvim-treesitter.configs').setup {
 }
 LUA
 
-" ================ lightspeed =================
+""""""""""""""""""""""""""""""""""""""""
+" lightspeed
+""""""""""""""""""""""""""""""""""""""""
 lua <<LUA
 require('lightspeed').setup({
   jump_on_partial_input_safety_timeout = 400,
@@ -284,8 +307,9 @@ LUA
 
 nmap s <Plug>Lightspeed_s
 
-" ============= ripgrep ======================
-
+""""""""""""""""""""""""""""""""""""""""
+" ripgrep
+""""""""""""""""""""""""""""""""""""""""
 let g:ackprg = 'rg --vimgrep --no-heading'
 
 cnoreabbrev Ack Ack!
@@ -293,7 +317,9 @@ cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
 
-" =================== ALE =======================
+""""""""""""""""""""""""""""""""""""""""
+" ALE
+""""""""""""""""""""""""""""""""""""""""
 
 " ALE config
 let g:ale_sign_error = '●'
@@ -325,7 +351,9 @@ let g:ale_fixers = {
 nnoremap <silent> gj :ALENext<cr>
 nnoremap <silent> gk :ALEPrevious<cr>
 
-" ============= Private config ===============
+""""""""""""""""""""""""""""""""""""""""
+" Private config
+""""""""""""""""""""""""""""""""""""""""
 
 " Load Stripe-specific private config
 call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
