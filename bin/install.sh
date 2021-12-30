@@ -47,7 +47,7 @@ function install_iterm2() {
     dotsay "@green + iterm2 is already installed"
   else 
     dotsay "@yellow + installing iterm2..."
-    brew install --cask iterm2
+    brew cask install iterm2
 
     dotsay "@yellow + setting iterm2 as default shell..."
     sudo chsh -s $(which zsh) $USER
@@ -98,7 +98,7 @@ function install_autojump() {
 function install_ohmyzsh() {
   dotsay "@yellow + installing ohmyzsh..."
 
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  git clone https://github.com/ohmyzsh/ohmyzsh ~/.oh-my-zsh
 }
 
 function install_zsh_autosuggestions() {
