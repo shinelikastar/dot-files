@@ -15,6 +15,7 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$(go env GOPATH)/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/starsu/.oh-my-zsh"
@@ -149,9 +150,6 @@ _fzf_complete_git_post() {
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.dot-files/p10k.zsh.
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh

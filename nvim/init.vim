@@ -12,6 +12,7 @@ set undolevels=1000			"undo levels
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15		"min number of columns to keep to right of cursor 
 set sidescroll=1				"min number of columns to scroll horizontally:w
+set timeoutlen=2000			"set leader timeout to be longer (default is 1000)
 
 " Indentation
 set autoindent					"copy indent from current line when starting a new line
@@ -30,12 +31,21 @@ set clipboard=unnamed
 "enable Y yank to end of line
 nnoremap Y y$
 
-" create window splits with vv and ss
+"create window splits with vv and ss
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
 
+"toggle highlight of searched terms with ctrl-C
+set hlsearch!
+nnoremap <nowait><silent> <C-c> :set hlsearch!<CR>
+
 "remap ESC to jk
 inoremap jk <Esc>
+
+"close quotes for me
+inoremap " ""<Esc>ha
+inoremap ' ''<Esc>ha
+inoremap ` ``<Esc>ha
 
 "reload file if it changes on disk
 set autoread
@@ -49,6 +59,12 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
+
+" ================ Turn Off Swap Files ==============
+
+set noswapfile
+set nobackup
+set nowb
 
 " function to source a file if it exists
 function! SourceIfExists(file)
@@ -88,6 +104,9 @@ Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
 " Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+
+" Markdown
+Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}  " markdown preview with :Glow
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
