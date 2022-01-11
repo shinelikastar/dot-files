@@ -36,13 +36,15 @@ nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
 
 "toggle highlight of searched terms with ctrl-C
-set hlsearch!
 nnoremap <nowait><silent> <C-c> :set hlsearch!<CR>
 
 "remap ESC to jk
 inoremap jk <Esc>
 
-"close quotes for me
+"close parens and quotes for me
+inoremap { {}<Esc>ha
+inoremap ( ()<Esc>ha
+inoremap [ []<Esc>ha
 inoremap " ""<Esc>ha
 inoremap ' ''<Esc>ha
 inoremap ` ``<Esc>ha
