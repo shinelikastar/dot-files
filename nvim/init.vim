@@ -62,11 +62,19 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
 
-" ================ Turn Off Swap Files ==============
-
+"turn off swap files
 set noswapfile
 set nobackup
 set nowb
+
+function! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+command! TrimWhitespace call TrimWhitespace()
+noremap <Leader>w :call TrimWhitespace()<CR>
 
 " function to source a file if it exists
 function! SourceIfExists(file)
