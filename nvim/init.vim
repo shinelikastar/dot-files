@@ -349,6 +349,17 @@ nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
 
 """"""""""""""""""""""""""""""""""""""""
+" LSP
+""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <space>li  :LspInfo<CR>
+nnoremap <silent> <space>lr  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <space>lh  <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <space>lr  <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <space>ln  <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <space>lt  <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> <space>lw  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
+""""""""""""""""""""""""""""""""""""""""
 " ALE
 """"""""""""""""""""""""""""""""""""""""
 
@@ -440,11 +451,20 @@ lua <<EOF
   })
 
   -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(
+		vim.lsp.protocol.make_client_capabilities()
+	)
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
     --capabilities = capabilities
   -- }
+
+	local lspconfig = require('lspconfig')
+
+	lspconfig.flow.setup({
+		cmd = { 'node_modules/.bin/flow', 'lsp' },
+		capabilities = capabilities,
+	})
 EOF
 
 """"""""""""""""""""""""""""""""""""""""
