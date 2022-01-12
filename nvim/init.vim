@@ -10,7 +10,7 @@ set number							"show line number
 set showmode						"show current mode down the bottom
 set undolevels=1000			"undo levels
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15		"min number of columns to keep to right of cursor 
+set sidescrolloff=15		"min number of columns to keep to right of cursor
 set sidescroll=1				"min number of columns to scroll horizontally:w
 set timeoutlen=2000			"set leader timeout to be longer (default is 1000)
 
@@ -94,7 +94,7 @@ call plug#begin('~/.local/nvim/plugins')
 Plug 'bluz71/vim-nightfly-guicolors'
 
 " Editing
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
 Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'               " better . for plugins
@@ -120,16 +120,17 @@ Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}  " markdown preview with :Glow
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'		" display icons
+Plug 'kyazdani42/nvim-web-devicons'				" display icons
 
 " Syntax checking
 Plug 'dense-analysis/ale'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'						" hot autocomplete plugin
+Plug 'hrsh7th/cmp-nvim-lsp'								" hot autocomplete plugin
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind-nvim'								" add vscode-style icons to completion menu
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -407,17 +408,34 @@ nnoremap <silent> gk :ALEPrevious<cr>
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
-  -- Setup nvim-cmp.
   local cmp = require'cmp'
+	local lspkind = require('lspkind')
+
+	local has_words_before = function()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	end
+
+	local feedkey = function(key, mode)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+	end
 
   cmp.setup({
+		formatting = {
+			format = lspkind.cmp_format({
+				with_text = false, -- do not show text alongside icons
+				maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+
+				-- The function below will be called before any actual modifications from lspkind
+				-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+				before = function (entry, vim_item)
+					return vim_item
+				end
+			})
+		},
     snippet = {
-      -- REQUIRED - you must specify a snippet engine
       expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        vim.fn["vsnip#anonymous"](args.body) 
       end,
     },
     mapping = {
@@ -430,6 +448,25 @@ lua <<EOF
         c = cmp.mapping.close(),
       }),
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			["<Tab>"] = cmp.mapping(function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				elseif vim.fn["vsnip#available"](1) == 1 then
+					feedkey("<Plug>(vsnip-expand-or-jump)", "")
+				elseif has_words_before() then
+					cmp.complete()
+				else
+					fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+				end
+			end, { "i", "s" }),
+
+			["<S-Tab>"] = cmp.mapping(function()
+				if cmp.visible() then
+					cmp.select_prev_item()
+				elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+					feedkey("<Plug>(vsnip-jump-prev)", "")
+				end
+			end, { "i", "s" }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -462,10 +499,6 @@ lua <<EOF
   local capabilities = require('cmp_nvim_lsp').update_capabilities(
 		vim.lsp.protocol.make_client_capabilities()
 	)
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-  -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
-    --capabilities = capabilities
-  -- }
 
 	local lspconfig = require('lspconfig')
 
@@ -473,6 +506,22 @@ lua <<EOF
 		cmd = { 'node_modules/.bin/flow', 'lsp' },
 		capabilities = capabilities,
 	})
+
+	lspconfig.sorbet.setup({
+		capabilities = capabilities,
+		cmd = {
+			"scripts/dev_productivity/while_pay_up_connected.sh",
+			"pay",
+			"exec",
+			"scripts/bin/typecheck",
+			"--lsp",
+			"--enable-all-experimental-lsp-features",
+			-- "--enable-experimental-lsp-document-formatting-rubyfmt",
+		},
+		root_dir = lspconfig.util.root_pattern("sorbet", ".git"),
+		settings = {},
+	})
+
 EOF
 
 """"""""""""""""""""""""""""""""""""""""
