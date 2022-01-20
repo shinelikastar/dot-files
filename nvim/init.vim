@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""
-" General Settings
+" Settings
 """"""""""""""""""""""""""""""""""""""""
 syntax on								"syntax highlighting
 syntax enable						"use system color scheme
@@ -100,11 +100,16 @@ Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'               " better . for plugins
 Plug 'liuchengxu/vim-which-key'				" display leader keys
 Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
+Plug 'kshenoy/vim-signature'          " show marks in the gutter
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'		" grepping through files
+
+" File finder
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
 
 " Git
 Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
@@ -272,22 +277,8 @@ require'lualine'.setup {
   },
   sections = {
 		lualine_a = {'mode'},
-		lualine_b = {
-			{
-				'tabs',
-				max_length = vim.o.columns / 3, -- maximum width of tabs component
-																				-- can also be a function that returns value of max_length dynamicaly
-				mode = 2, -- 0  shows tab_nr
-									-- 1  shows tab_name
-									-- 2  shows tab_nr + tab_name
-				tabs_color = {
-					active = 'lualine_{section}_normal',   -- color for active tab
-					inactive = 'lualine_{section}_inactive', -- color for inactive tab
-				},
-			}
-		},
-    lualine_c = {'branch', 'diff', 'diagnostics'},
-    lualine_d = {'filename'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
@@ -435,7 +426,7 @@ lua <<EOF
 		},
     snippet = {
       expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) 
+        vim.fn["vsnip#anonymous"](args.body)
       end,
     },
     mapping = {
@@ -523,6 +514,25 @@ lua <<EOF
 	})
 
 EOF
+
+" ============== File browser =================
+"
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimfiler_as_default_explorer = 1
+let g:vimshell_force_overwrite_statusline = 0
+
+call vimfiler#custom#profile('default', 'context', {
+  \ 'safe': 0
+  \ })
+
+" bind the minus key to show the file explorer in the dir of the current open
+" buffer's file
+nnoremap - :VimFilerBufferDir<CR>
+
+""""""""""""""""""""""""""""""""""""""""
+" which-key
+""""""""""""""""""""""""""""""""""""""""
+lua require("which-key")
 
 """"""""""""""""""""""""""""""""""""""""
 " Private config
