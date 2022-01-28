@@ -65,8 +65,11 @@
   # fetch a remote branch
   rbranch = !git fetch origin $1:$1 && git checkout $1
 
+  # Quick sync (non-interactive mode)
+  qsync = !git fetch origin master:master && git rebase --no-keep-empty master
+
   # interactive sync your current branch with master
-  sync = !git fetch origin && git rebase -i origin/master
+  sync = !git fetch origin master:master && git rebase --no-keep-empty -i master
 
   # respond to PR feedback
   respond = !git commit --amend --no-edit && git push --force-with-lease
