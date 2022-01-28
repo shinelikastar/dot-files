@@ -172,3 +172,4 @@ bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^ ' autosuggest-accept
 
 eval "$(rbenv init - zsh)"
+eval "$(nodenv init -)"

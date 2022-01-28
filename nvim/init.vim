@@ -140,6 +140,7 @@ Plug 'onsails/lspkind-nvim'								" add vscode-style icons to completion menu
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'SirVer/UltiSnips'
 
 " Tests
 Plug 'preservim/vimux'
@@ -277,9 +278,12 @@ require'lualine'.setup {
   },
   sections = {
 		lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+		lualine_b = {{
+			'filename',
+			path = 0,
+		}},
+		lualine_c = {'diff'},
+    lualine_x = {'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -470,9 +474,7 @@ lua <<EOF
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
+			-- { name = 'ultisnips' }, -- For ultisnips users.
     }, {
       { name = 'buffer' },
     })
