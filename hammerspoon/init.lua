@@ -23,4 +23,5 @@ hyperKey
   :bind('h'):toFunction("Reload Hammerspoon", reloadHammerspoon)
   :bind('l'):toFunction("Lock screen", hs.caffeinate.startScreensaver)
 
+require "rich-link-copy"
 require "pairing-mode"

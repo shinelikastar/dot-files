@@ -129,13 +129,17 @@ Plug 'kyazdani42/nvim-web-devicons'				" display icons
 
 " Syntax checking
 Plug 'dense-analysis/ale'
-Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'								" hot autocomplete plugin
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'								" add vscode-style icons to completion menu
+
+" LSP config
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp-status.nvim'          " provides statusline information for LSP
+Plug 'ray-x/lsp_signature.nvim'          " floating signature 'as you type'
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -154,7 +158,6 @@ Plug 'melonmanchan/vim-tmux-resizer'   " lets you resize Vim windows with alt+hj
 call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
 
 call plug#end()
-
 
 """"""""""""""""""""""""""""""""""""""""
 " Colors
@@ -267,6 +270,27 @@ vnoremap <leader>g :GBrowse!<CR>
 " Lualine
 """"""""""""""""""""""""""""""""""""""""
 lua << END
+local lsp_status = require('lsp-status')
+
+local function lspStatus()
+  if #vim.lsp.buf_get_clients() > 0 then
+    return lsp_status.status()
+  else
+    return ''
+  end
+end
+
+-- LSP status
+lsp_status.config({
+  status_symbol = '',
+  indicator_errors = '',
+  indicator_warnings = '',
+  indicator_info = '',
+  indicator_hint = 'כֿ',
+  indicator_ok = '✔️',
+  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+})
+
 require'lualine'.setup {
   options = {
     icons_enabled = true,
@@ -284,7 +308,7 @@ require'lualine'.setup {
 		}},
 		lualine_c = {'diff'},
     lualine_x = {'filetype'},
-    lualine_y = {'progress'},
+    lualine_y = { lspStatus },
     lualine_z = {'location'}
   },
   inactive_sections = {
@@ -390,15 +414,15 @@ let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'javascript.jsx': ['eslint'],
 \ 'typescript': ['eslint'],
-\ 'typescript.tsx': ['eslint'],
+\ 'typescriptreact': ['eslint'],
 \ 'ruby': ['rubocop'],
 \}
 
 let g:ale_fixers = {
-\ 'javascript': ['prettier', 'eslint'],
-\ 'javascript.jsx': ['prettier', 'eslint'],
+\ 'javascript': ['eslint'],
+\ 'javascript.jsx': ['eslint'],
 \ 'typescript': ['eslint'],
-\ 'typescript.tsx': ['eslint'],
+\ 'typescriptreact': ['eslint'],
 \ 'ruby': ['rubocop'],
 \}
 
@@ -497,19 +521,49 @@ lua <<EOF
   })
 
   -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(
+  local lspCapabilities = require('cmp_nvim_lsp').update_capabilities(
 		vim.lsp.protocol.make_client_capabilities()
 	)
 
 	local lspconfig = require('lspconfig')
+	local lsp_status = require('lsp-status')
 
-	lspconfig.flow.setup({
-		cmd = { 'node_modules/.bin/flow', 'lsp' },
-		capabilities = capabilities,
+	lsp_status.register_progress()
+
+	local on_attach = function(client, bufnr)
+		lsp_status.on_attach(client, bufnr)
+
+		-- Floating window signature
+		require('lsp_signature').on_attach({
+			debug = false,
+			handler_opts = {
+				border = "single",
+			},
+		})
+	end
+
+	lspconfig.tsserver.setup({
+		capabilities = lspCapabilities,
+		cmd_env = { NODE_OPTIONS = "--max-old-space-size=8192" }, -- Give 8gb of RAM to node
+		filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+		init_options = {
+			maxTsServerMemory = "8192",
+		},
+		root_dir = lspconfig.util.root_pattern("tsconfig.json"),
+		on_attach = function(client, bufnr)
+			client.resolved_capabilities.document_formatting = false
+			client.resolved_capabilities.document_range_formatting = false
+
+			if client.config.flags then
+				client.config.flags.allow_incremental_sync = true
+			end
+
+			on_attach(client, bufnr)
+		end
 	})
 
 	lspconfig.sorbet.setup({
-		capabilities = capabilities,
+		capabilities = lspCapabilities,
 		cmd = {
 			"scripts/dev_productivity/while_pay_up_connected.sh",
 			"pay",
@@ -522,7 +576,6 @@ lua <<EOF
 		root_dir = lspconfig.util.root_pattern("sorbet", ".git"),
 		settings = {},
 	})
-
 EOF
 
 " ============== File browser =================

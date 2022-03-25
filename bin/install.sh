@@ -153,6 +153,10 @@ function install_tmux() {
   fi
 }
 
+function install_typescript_language_server() {
+  yarn global add typescript-language-server
+}
+
 dotsay "@white setup .zshrc config"
 ln -sf ~/.dot-files/zshrc ~/.zshrc
 
@@ -186,4 +190,5 @@ install_zsh_autosuggestions
 install_zsh_syntax_highlighting
 install_tmux
 install_tpm
+install_typescript_language_server
 brew install diff-so-fancy
