@@ -408,6 +408,8 @@ set updatetime=300
 autocmd CursorHold * lua vim.diagnostic.open_float(nil, {scope = "line", close_events = {"CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave"}})
 autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
 
+set signcolumn=yes
+
 """"""""""""""""""""""""""""""""""""""""
 " ALE
 """"""""""""""""""""""""""""""""""""""""
@@ -441,6 +443,28 @@ let g:ale_fixers = {
 
 nnoremap <silent> gj :ALENext<cr>
 nnoremap <silent> gk :ALEPrevious<cr>
+
+""""""""""""""""""""""""""""""""""""""""
+" nvim-diagnostic
+""""""""""""""""""""""""""""""""""""""""
+lua <<EOF
+require("nvim-ale-diagnostic")
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = false,
+    virtual_text = {
+      spacing = 4,
+      format = function(diagnostic)
+        -- Only show the first line with virtualtext.
+        return string.gsub(diagnostic.message, '\n.*', '')
+      end,
+    },
+    signs = true,
+    update_in_insert = false,
+  }
+)
+EOF
 
 """"""""""""""""""""""""""""""""""""""""
 " nvim-cmp
