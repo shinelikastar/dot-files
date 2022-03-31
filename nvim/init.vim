@@ -136,10 +136,13 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'								" add vscode-style icons to completion menu
 
-" LSP config
+" LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp-status.nvim'          " provides statusline information for LSP
 Plug 'ray-x/lsp_signature.nvim'          " floating signature 'as you type'
+Plug 'nathunsmitty/nvim-ale-diagnostic'  " route lsp diagnostics to ALE
+Plug 'kyazdani42/nvim-web-devicons'			 " pretty list of project-wide LSP errors
+Plug 'folke/trouble.nvim'
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -245,6 +248,16 @@ let test#enabled_runners = ["lua#busted", "ruby#rspec"]
 let test#custom_runners = {}
 let test#custom_runners['ruby'] = ['rspec']
 let test#custom_runners['lua'] = ['busted']
+
+""""""""""""""""""""""""""""""""""""""""
+" trouble.vim
+""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 """"""""""""""""""""""""""""""""""""""""
 " Tmux
