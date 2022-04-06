@@ -106,6 +106,7 @@ Plug 'kshenoy/vim-signature'          " show marks in the gutter
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'		" grepping through files
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
 " File finder
 Plug 'Shougo/unite.vim'
@@ -174,56 +175,46 @@ let g:nightflyUnderlineMatchParen = 1
 """"""""""""""""""""""""""""""""""""""""
 " FZF
 """"""""""""""""""""""""""""""""""""""""
+lua << LUA
+local actions = require('fzf-lua.actions')
 
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+require('fzf-lua').setup({
+  fzf_opts = {
+    ['--layout'] = false,
+  },
+  files = {
+    actions = {
+      ["default"] = actions.file_edit_or_qf,
+      ["ctrl-x"] = actions.file_split,
+      ["ctrl-v"] = actions.file_vsplit,
+      ["ctrl-t"] = actions.file_tabedit,
+      ["alt-q"] = actions.file_sel_to_qf,
+    },
+    -- pay-server can't take the heat
+    file_icons = false,
+    git_icons = false,
+  },
+  git = {
+    file_icons = false,
+    git_icons = false,
+  },
+  grep = {
+    file_icons = false,
+    git_icons = false,
+  },
+  winopts = {
+    preview = {
+      layout = 'vertical',
+    },
+  },
+})
+LUA
 
-" This is the default extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+noremap <C-b> :lua require('fzf-lua').buffers()<CR>
+noremap <C-p> <cmd>lua require('fzf-lua').files()<CR>
+noremap <space>fd <cmd>lua require('fzf-lua').grep()<CR>
+noremap <space>fs <cmd>lua require('fzf-lua').grep_cword()<CR>
 
-let g:fzf_sink = 'e'
-
-" floating window
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'highlight': 'Comment' } }
-
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-function! g:FzfFilesSource()
-  let l:source_command = "rg --files --hidden --glob '!{node_modules/*,.git/*}'"
-
-  return l:source_command
-endfunction
-
-let g:fzf_preview_cmd = g:plug_home . "/fzf.vim/bin/preview.sh {}"
-
-noremap <C-b> :Buffers<CR>
-nnoremap <silent> <Leader>f :Rg<CR>
-
-noremap <C-p> :call fzf#vim#files('', { 'source': g:FzfFilesSource(),
-      \ 'options': [
-      \   '--tiebreak=index', '--preview', g:fzf_preview_cmd
-      \  ]})<CR><CR>
-
-""""""""""""""""""""""""""""""""""""""""
 " vim-test
 """"""""""""""""""""""""""""""""""""""""
 nmap <silent> <leader>T :TestNearest<CR>
@@ -257,6 +248,7 @@ nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap <leader>xr <cmd>TroubleRefresh<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 """"""""""""""""""""""""""""""""""""""""
