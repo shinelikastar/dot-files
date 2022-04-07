@@ -193,6 +193,7 @@ require('fzf-lua').setup({
     -- pay-server can't take the heat
     file_icons = false,
     git_icons = false,
+		raw_cmd = "rg --files --hidden --glob '!{node_modules/*,.git/*}'",
   },
   git = {
     file_icons = false,
@@ -526,7 +527,15 @@ lua <<EOF
       { name = 'vsnip' }, -- For vsnip users.
 			-- { name = 'ultisnips' }, -- For ultisnips users.
     }, {
-      { name = 'buffer' },
+			{
+				name = 'buffer',
+				option = {
+					-- Complete from all visible buffers.
+					get_bufnrs = function()
+						return vim.api.nvim_list_bufs()
+					end
+				},
+			},
     })
   })
 
