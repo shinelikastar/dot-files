@@ -13,6 +13,8 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15		"min number of columns to keep to right of cursor
 set sidescroll=1				"min number of columns to scroll horizontally:w
 set timeoutlen=2000			"set leader timeout to be longer (default is 1000)
+set colorcolumn=81			"mark the 81st character with a column
+set textwidth=80				"set wrap to 80 characters
 
 " Indentation
 set autoindent					"copy indent from current line when starting a new line
@@ -149,6 +151,7 @@ Plug 'folke/trouble.nvim'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'SirVer/UltiSnips'
+Plug 'lukas-reineke/cmp-under-comparator'
 
 " Tests
 Plug 'preservim/vimux'
@@ -464,6 +467,8 @@ set completeopt=menu,menuone,noselect
 lua <<EOF
   local cmp = require'cmp'
 	local lspkind = require('lspkind')
+	local compare = require('cmp.config.compare')
+	local cmp_buffer = require('cmp_buffer')
 
 	local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -536,7 +541,26 @@ lua <<EOF
 					end
 				},
 			},
-    })
+    }),
+	  sorting = {
+    comparators = {
+      -- Sort by distance of the word from the cursor
+      -- https://github.com/hrsh7th/cmp-buffer#locality-bonus-comparator-distance-based-sorting
+      function(...)
+        return cmp_buffer:compare_locality(...)
+      end,
+      compare.offset,
+      compare.exact,
+      compare.score,
+      require("cmp-under-comparator").under,
+      compare.recently_used,
+      compare.locality,
+      compare.kind,
+      compare.sort_text,
+      compare.length,
+      compare.order,
+    },
+  },
   })
 
   -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
