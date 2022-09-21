@@ -255,6 +255,13 @@ nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap <leader>xr <cmd>TroubleRefresh<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
+command! -nargs=1 -complete=dir FixTSExpectError :lua require('stripe.ts-lint-expect-error').findTsExpectErrors(<f-args>)<CR>
+
+""""""""""""""""""""""""""""""""""""""""
+" Quickfix
+""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent><space>la :CodeActionMenu<CR>
+
 """"""""""""""""""""""""""""""""""""""""
 " Tmux
 """"""""""""""""""""""""""""""""""""""""
@@ -386,7 +393,7 @@ nnoremap <Leader>A :Ack!<CR>
 " LSP
 """"""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <space>li  :LspInfo<CR>
-nnoremap <silent> <space>lr  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <space>ld  <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <space>lh  <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <space>lr  <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <space>ln  <cmd>lua vim.lsp.buf.rename()<CR>
@@ -398,8 +405,8 @@ nnoremap <silent> <space>l0  <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " 300ms before CursorHold events fire (like hover text on errors)
 set updatetime=300
 
-autocmd CursorHold * lua vim.diagnostic.open_float(nil, {scope = "line", close_events = {"CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave"}})
-autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+" autocmd CursorHold * lua vim.diagnostic.open_float(nil, {scope = "line", close_events = {"CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave"}})
+" autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
 
 set signcolumn=yes
 
@@ -429,8 +436,8 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \ 'javascript': ['eslint'],
 \ 'javascript.jsx': ['eslint'],
-\ 'typescript': ['eslint'],
-\ 'typescriptreact': ['eslint'],
+\ 'typescript': ['prettier', 'eslint'],
+\ 'typescriptreact': ['prettier', 'eslint'],
 \ 'ruby': ['rubocop'],
 \}
 
@@ -607,6 +614,10 @@ lua <<EOF
 		filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
 		init_options = {
 			maxTsServerMemory = "8192",
+			preferences = {
+      -- Ensure we always import from absolute paths
+      importModuleSpecifierPreference = "non-relative",
+			},
 		},
 		root_dir = lspconfig.util.root_pattern("tsconfig.json"),
 		on_attach = function(client, bufnr)
@@ -623,6 +634,9 @@ lua <<EOF
 
 	lspconfig.sorbet.setup({
 		capabilities = lspCapabilities,
+		init_options = {
+      supportsOperationNotifications = true,
+    },
 		cmd = {
 			"scripts/dev_productivity/while_pay_up_connected.sh",
 			"pay",
@@ -635,6 +649,22 @@ lua <<EOF
 		root_dir = lspconfig.util.root_pattern("sorbet", ".git"),
 		settings = {},
 	})
+
+  -- Templated off of https://github.com/sorbet/sorbet/blob/23836cbded86135219da1b204d79675a1615cc49/vscode_extension/src/SorbetStatusBarEntry.ts#L119
+  vim.lsp.handlers["sorbet/showOperation"] = function(err, result, context, config)
+    if err ~= nil then
+      error(err)
+      return
+    end
+    local message = {
+      token = result.operationName,
+      value = {
+        kind = result.status == "end" and "end" or "begin",
+        title = result.description,
+      },
+    }
+    vim.lsp.handlers["$/progress"](err, message, context, config)
+  end
 EOF
 
 " ============== File browser =================
