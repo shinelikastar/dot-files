@@ -181,3 +181,9 @@ bindkey '^ ' autosuggest-accept
 
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init -)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/starsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/starsu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/starsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/starsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
