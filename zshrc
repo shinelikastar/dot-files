@@ -17,6 +17,15 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$(go env GOPATH)/bin:$PATH
 
+### BEGIN SPACE COMMANDER
+export PATH="/Users/starsu/stripe/space-commander/bin:$PATH"
+### END SPACE COMMANDER
+
+### BEGIN APIORI GO
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+### END APIORI GO
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/starsu/.oh-my-zsh"
 
@@ -96,7 +105,6 @@ setopt share_history
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	autojump
-	copydir
 	git 
 	sudo
 	vi-mode
@@ -173,3 +181,9 @@ bindkey '^ ' autosuggest-accept
 
 eval "$(rbenv init - zsh)"
 eval "$(nodenv init -)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/starsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/starsu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/starsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/starsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

@@ -32,7 +32,7 @@ alias v="nvim"
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
 alias ps="cd ~/stripe/pay-server/"
-alias dashboot='pay start admin admin_assets justification justification_assets manage manage_ui_metro excelsior api api_rpc k8s_manifests token-issuer-srv'
+alias dashboot='pay start admin admin_metro justification justification_assets manage manage_ui_metro excelsior api api_rpc k8s_manifests token-issuer-srv'
 
 # Second dev box
 abbrev-alias jb="cd ~/stripe-b/stripe-js-v3/"
@@ -41,6 +41,7 @@ abbrev-alias pb="cd ~/stripe-b/pay-server/"
 # Workflow related
 alias p="work pr show"
 alias b="work begin"
+alias s="work pr switch"
 
 # Yarn stuff
 alias y="yarn" 
