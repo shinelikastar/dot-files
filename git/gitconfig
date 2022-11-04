@@ -158,6 +158,5 @@
 	protocol = ssh
 [work "features"]
 	gh = true
-	gh = true
 [safe]
 	directory = /Library/WebServer/Documents/shinelikastar.github.io
