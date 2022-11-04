@@ -73,6 +73,7 @@ _fzf_complete_git_post() {
 }
 
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh
+[ -f ~/.base16_theme ] && source ~/.base16_theme
 
 # Import aliases
 source ~/.dot-files/custom/aliases.zsh
