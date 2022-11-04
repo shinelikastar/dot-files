@@ -172,8 +172,11 @@ ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 dotsay "@white setup neovim config"
 ln -sf ~/.dot-files/nvim ~/.config/nvim
 
-dotsay "@white setup hammersppon"
-ln -sf ~/.dot-files/hammerspoon ~/.hammerspoon
+dotsay "@white setup tmuxinator"
+ln -sf ~/.dot-files/tmuxinator ~/.tmuxinator
+
+dotsay "@white setup hammerspoon"
+ln -sf ~/.dot-files/hammerspoon/ ~/.hammerspoon
 
 install_homebrew
 install_ripgrep

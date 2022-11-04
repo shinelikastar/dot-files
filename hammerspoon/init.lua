@@ -1,5 +1,5 @@
 require "status-menubar"
-require("slack")
+require "slack"
 
 local hyper = {'cmd', 'alt', 'ctrl', 'shift'}
 
