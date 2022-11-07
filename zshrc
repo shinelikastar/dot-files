@@ -28,6 +28,7 @@ export ZSH="/Users/starsu/.oh-my-zsh"
 export PATH="/Users/starsu/.rbenv/shims:$PATH"
 export PATH="/Users/starsu/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+eval "$(nodenv init -)"
 
 # History settings
 HISTSIZE=10000
