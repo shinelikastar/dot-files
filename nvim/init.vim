@@ -100,6 +100,9 @@ Plug 'tpope/vim-repeat'               " better . for plugins
 Plug 'liuchengxu/vim-which-key'				" display leader keys
 Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
 Plug 'kshenoy/vim-signature'          " show marks in the gutter
+Plug 'p00f/nvim-ts-rainbow'           " show parentheses pairs with different colors
+Plug 'windwp/nvim-ts-autotag'         " autoclose HTML tags
+Plug 'andymass/vim-matchup'						" extended matchers for %
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
@@ -141,7 +144,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp-status.nvim'          " provides statusline information for LSP
 Plug 'ray-x/lsp_signature.nvim'          " floating signature 'as you type'
 Plug 'nathunsmitty/nvim-ale-diagnostic'  " route lsp diagnostics to ALE
-Plug 'kyazdani42/nvim-web-devicons'			 " pretty list of project-wide LSP errors
 Plug 'folke/trouble.nvim'
 
 " Snippets
@@ -361,6 +363,11 @@ require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
   incremental_selection = { enable = true },
   textobjects = { enable = true },
+	rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  },
 }
 LUA
 
@@ -585,7 +592,7 @@ lua <<EOF
   })
 
   -- Setup lspconfig.
-  local lspCapabilities = require('cmp_nvim_lsp').update_capabilities(
+  local lspCapabilities = require('cmp_nvim_lsp').default_capabilities(
 		vim.lsp.protocol.make_client_capabilities()
 	)
 
@@ -690,4 +697,3 @@ lua require("which-key")
 
 " Load Stripe-specific private config
 call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
-
