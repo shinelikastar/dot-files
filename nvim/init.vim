@@ -103,6 +103,7 @@ Plug 'kshenoy/vim-signature'          " show marks in the gutter
 Plug 'p00f/nvim-ts-rainbow'           " show parentheses pairs with different colors
 Plug 'windwp/nvim-ts-autotag'         " autoclose HTML tags
 Plug 'andymass/vim-matchup'						" extended matchers for %
+Plug 'nvim-lua/plenary.nvim'					" async support
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
@@ -131,7 +132,8 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'				" display icons
 
 " Syntax checking
-Plug 'dense-analysis/ale'
+Plug 'lukas-reineke/lsp-format.nvim'      " LSP format on save, with multiple sequential LSPs + async
+Plug 'jose-elias-alvarez/null-ls.nvim'    " LSP for formatting/diagnostics
 Plug 'hrsh7th/cmp-nvim-lsp'								" hot autocomplete plugin
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -416,60 +418,10 @@ set updatetime=300
 set signcolumn=yes
 
 """"""""""""""""""""""""""""""""""""""""
-" ALE
+" diagnostics
 """"""""""""""""""""""""""""""""""""""""
-
-" ALE config
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '▲'
-
-" automatically lint and fix on save
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
-
-" only run the linters we specify
-let g:ale_linters_explicit = 1
-
-let g:ale_linters = {
-\ 'javascript': ['eslint'],
-\ 'javascript.jsx': ['eslint'],
-\ 'typescript': ['eslint'],
-\ 'typescriptreact': ['eslint'],
-\ 'ruby': ['rubocop'],
-\}
-
-let g:ale_fixers = {
-\ 'javascript': ['eslint'],
-\ 'javascript.jsx': ['eslint'],
-\ 'typescript': ['prettier', 'eslint'],
-\ 'typescriptreact': ['prettier', 'eslint'],
-\ 'ruby': ['rubocop'],
-\}
-
-nnoremap <silent> gj :ALENext<cr>
-nnoremap <silent> gk :ALEPrevious<cr>
-
-""""""""""""""""""""""""""""""""""""""""
-" nvim-diagnostic
-""""""""""""""""""""""""""""""""""""""""
-lua <<EOF
-require("nvim-ale-diagnostic")
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = false,
-    virtual_text = {
-      spacing = 4,
-      format = function(diagnostic)
-        -- Only show the first line with virtualtext.
-        return string.gsub(diagnostic.message, '\n.*', '')
-      end,
-    },
-    signs = true,
-    update_in_insert = false,
-  }
-)
-EOF
+nnoremap <silent> gj :lua vim.diagnostic.goto_next()<cr>
+nnoremap <silent> gk :lua vim.diagnostic.goto_prev()<cr>
 
 """"""""""""""""""""""""""""""""""""""""
 " nvim-cmp
@@ -598,10 +550,20 @@ lua <<EOF
 
 	local lspconfig = require('lspconfig')
 	local lsp_status = require('lsp-status')
+	local null_ls = require("null-ls")
+	local lsp_format = require("lsp-format")
+	local trouble = require("trouble")
+
+	trouble.setup({
+		use_diagnostic_signs = true,
+	})
+
+	lsp_format.setup()
 
 	lsp_status.register_progress()
 
 	local on_attach = function(client, bufnr)
+	  lsp_format.on_attach(client, bufnr)
 		lsp_status.on_attach(client, bufnr)
 
 		-- Floating window signature
@@ -612,6 +574,91 @@ lua <<EOF
 			},
 		})
 	end
+
+	-- null ls
+	local ignorePrettierRules = function(diagnostic)
+		return diagnostic.code ~= "prettier/prettier"
+	end
+
+	local hasEslintConfig = function(utils)
+		return utils.root_has_file({
+			".eslintrc",
+			".eslintrc.json",
+			".eslintrc.js"
+		})
+	end
+
+	local hasPrettierConfig = function(utils)
+		return utils.root_has_file({
+			".prettierrc",
+			".prettierrc.json",
+			".prettierrc.js",
+			".prettierrc.toml",
+			".prettierrc.yml",
+			".prettierrc.yaml",
+		})
+	end
+
+	local eslintConfig = {
+		condition = hasEslintConfig,
+		filter = ignorePrettierRules,
+	}
+
+	null_ls.setup({
+		-- For :NullLsLog support
+		debug = true,
+		on_attach = on_attach,
+		capabilities = lspCapabilities,
+		root_dir = require("null-ls.utils").root_pattern(
+			".git",
+			"Gemfile.lock",
+			"package.json"
+		),
+		sources = {
+			-- lua
+			-- null_ls.builtins.formatting.stylua,
+			-- null_ls.builtins.code_actions.eslint,
+			-- null_ls.builtins.code_actions.eslint_d,
+
+			-- typescript
+			null_ls.builtins.formatting.prettier.with({
+				condition = hasPrettierConfig,
+				-- env = {
+				--   -- PRETTIERD_LOCAL_PRETTIER_ONLY = 1,
+				-- },
+				-- Always use the local prettier, especially when prettier is pointing
+				-- at a feature branch or something weird.
+				only_local = "node_modules/.bin",
+			}),
+
+			-- null_ls.builtins.code_actions.eslint_d.with(eslintConfig),
+			-- null_ls.builtins.diagnostics.eslint_d.with(eslintConfig),
+		}
+	})
+
+	lspconfig.util.default_config = vim.tbl_extend(
+		"force",
+		lspconfig.util.default_config,
+		{
+			capabilities = lsp_status.capabilities,
+			on_attach = on_attach,
+		}
+	)
+
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+		vim.lsp.diagnostic.on_publish_diagnostics, {
+			underline = false,
+			virtual_text = {
+				spacing = 4,
+				format = function(diagnostic)
+					-- Only show the first line with virtualtext.
+					return string.gsub(diagnostic.message, '\n.*', '')
+				end,
+			},
+			signs = true,
+			update_in_insert = false,
+		}
+	)
 
 	lspconfig.tsserver.setup({
 		capabilities = lspCapabilities,
@@ -626,8 +673,8 @@ lua <<EOF
 		},
 		root_dir = lspconfig.util.root_pattern("tsconfig.json"),
 		on_attach = function(client, bufnr)
-			client.server_capabilities.document_formatting = false
-			client.server_capabilities.document_range_formatting = false
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
 
 			if client.config.flags then
 				client.config.flags.allow_incremental_sync = true

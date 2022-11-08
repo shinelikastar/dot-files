@@ -157,6 +157,28 @@ function install_typescript_language_server() {
   yarn global add typescript-language-server
 }
 
+function install_lua_language_server() {
+	brew install ninja
+
+  local lspdir="$HOME/.local/nvim/lsp"
+  local location="$lspdir/lua-language-server"
+
+  if [ ! -d "$location" ]; then
+    dotsay "@b@blue[[+ Installing sumneko Lua LSP]]"
+
+    mkdir -p "$lspdir"
+    git clone https://github.com/sumneko/lua-language-server "$location"
+
+    cd "$location" || exit 1
+    git submodule update --init --recursive
+
+    cd 3rd/luamake || exit 1
+    ./compile/install.sh
+    cd ../.. || exit 1
+    ./3rd/luamake/luamake rebuild
+  fi
+}
+
 dotsay "@white setup .zshrc config"
 ln -sf ~/.dot-files/zshrc ~/.zshrc
 
@@ -194,4 +216,5 @@ install_zsh_syntax_highlighting
 install_tmux
 install_tpm
 install_typescript_language_server
+install_lua_language_server
 brew install diff-so-fancy
