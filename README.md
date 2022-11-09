@@ -1,5 +1,4 @@
-# [WIP] dot-files
+# dot-files
 
-### Git-related
-- [x] Create git config/aliases
-- [ ] Automate git account setup
+- [ ] Format vim files
+- [ ] Refactor lua stuff
