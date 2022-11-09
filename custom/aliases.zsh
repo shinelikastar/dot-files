@@ -7,10 +7,13 @@ export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
-alias la="ls -la"
+alias l="ls -la"
 
-alias 6="source ~/.zshrc;"
+alias 6="exec zsh"
 alias 0="tmux source-file ~/.tmux.conf"
+
+alias tk="tmux kill-server"
+alias tm="tmuxinator"
 
 # Edit this file without fuss
 function edit_alias() {
@@ -32,7 +35,6 @@ alias v="nvim"
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
 alias ps="cd ~/stripe/pay-server/"
-alias dashboot='pay start admin admin_metro justification justification_assets manage manage_ui_metro excelsior api api_rpc k8s_manifests token-issuer-srv'
 
 # Workflow related
 alias p="work pr show"
