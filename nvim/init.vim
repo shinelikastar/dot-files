@@ -367,8 +367,6 @@ require('nvim-treesitter.configs').setup {
   textobjects = { enable = true },
 	rainbow = {
     enable = true,
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
   },
 }
 LUA
@@ -412,9 +410,7 @@ nnoremap <silent> <space>l0  <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " 300ms before CursorHold events fire (like hover text on errors)
 set updatetime=300
 
-" autocmd CursorHold * lua vim.diagnostic.open_float(nil, {scope = "line", close_events = {"CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave"}})
-" autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
-
+" gutter space for lsp info on left
 set signcolumn=yes
 
 """"""""""""""""""""""""""""""""""""""""
@@ -543,16 +539,17 @@ lua <<EOF
     })
   })
 
-  -- Setup lspconfig.
-  local lspCapabilities = require('cmp_nvim_lsp').default_capabilities(
-		vim.lsp.protocol.make_client_capabilities()
-	)
-
 	local lspconfig = require('lspconfig')
 	local lsp_status = require('lsp-status')
 	local null_ls = require("null-ls")
 	local lsp_format = require("lsp-format")
 	local trouble = require("trouble")
+	local cmp_nvim_lsp = require('cmp_nvim_lsp')
+
+  -- Setup lspconfig.
+  local lspCapabilities = require('cmp_nvim_lsp').default_capabilities(
+		vim.lsp.protocol.make_client_capabilities()
+	)
 
 	trouble.setup({
 		use_diagnostic_signs = true,
@@ -560,11 +557,8 @@ lua <<EOF
 
 	lsp_format.setup()
 
-	lsp_status.register_progress()
-
 	local on_attach = function(client, bufnr)
 	  lsp_format.on_attach(client, bufnr)
-		lsp_status.on_attach(client, bufnr)
 
 		-- Floating window signature
 		require('lsp_signature').on_attach({
@@ -606,7 +600,7 @@ lua <<EOF
 
 	null_ls.setup({
 		-- For :NullLsLog support
-		debug = true,
+		debug = false,
 		on_attach = on_attach,
 		capabilities = lspCapabilities,
 		root_dir = require("null-ls.utils").root_pattern(
@@ -617,22 +611,18 @@ lua <<EOF
 		sources = {
 			-- lua
 			-- null_ls.builtins.formatting.stylua,
-			-- null_ls.builtins.code_actions.eslint,
-			-- null_ls.builtins.code_actions.eslint_d,
 
 			-- typescript
 			null_ls.builtins.formatting.prettier.with({
 				condition = hasPrettierConfig,
-				-- env = {
-				--   -- PRETTIERD_LOCAL_PRETTIER_ONLY = 1,
-				-- },
 				-- Always use the local prettier, especially when prettier is pointing
 				-- at a feature branch or something weird.
 				only_local = "node_modules/.bin",
 			}),
 
-			-- null_ls.builtins.code_actions.eslint_d.with(eslintConfig),
-			-- null_ls.builtins.diagnostics.eslint_d.with(eslintConfig),
+			null_ls.builtins.code_actions.eslint.with(eslintConfig),
+			null_ls.builtins.diagnostics.eslint.with(eslintConfig),
+			null_ls.builtins.formatting.eslint.with(eslintConfig),
 		}
 	})
 
@@ -660,6 +650,8 @@ lua <<EOF
 		}
 	)
 
+	lsp_status.register_progress()
+
 	lspconfig.tsserver.setup({
 		capabilities = lspCapabilities,
 		cmd_env = { NODE_OPTIONS = "--max-old-space-size=8192" }, -- Give 8gb of RAM to node
@@ -667,8 +659,8 @@ lua <<EOF
 		init_options = {
 			maxTsServerMemory = "8192",
 			preferences = {
-      -- Ensure we always import from absolute paths
-      importModuleSpecifierPreference = "non-relative",
+				-- Ensure we always import from absolute paths
+				importModuleSpecifierPreference = "non-relative",
 			},
 		},
 		root_dir = lspconfig.util.root_pattern("tsconfig.json"),
