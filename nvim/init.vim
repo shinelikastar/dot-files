@@ -138,6 +138,7 @@ Plug 'nvim-lua/lsp-status.nvim'          " provides statusline information for L
 Plug 'ray-x/lsp_signature.nvim'          " floating signature 'as you type'
 Plug 'nathunsmitty/nvim-ale-diagnostic'  " route lsp diagnostics to ALE
 Plug 'folke/trouble.nvim'
+Plug 'j-hui/fidget.nvim'								 " stand-alone status for nvim-lsp progress
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -278,26 +279,6 @@ vnoremap <leader>g :GBrowse!<CR>
 " Lualine
 """"""""""""""""""""""""""""""""""""""""
 lua << END
-local lsp_status = require('lsp-status')
-
-local function lspStatus()
-  if #vim.lsp.buf_get_clients() > 0 then
-    return lsp_status.status()
-  else
-    return ''
-  end
-end
-
--- LSP status
-lsp_status.config({
-  status_symbol = '',
-  indicator_errors = '',
-  indicator_warnings = '',
-  indicator_info = '',
-  indicator_hint = 'כֿ',
-  indicator_ok = '✔️',
-  spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
-})
 
 require'lualine'.setup {
   options = {
@@ -316,7 +297,7 @@ require'lualine'.setup {
 		}},
 		lualine_c = {'diff'},
     lualine_x = {'filetype'},
-    lualine_y = { lspStatus },
+    lualine_y = {},
     lualine_z = {}
   },
   inactive_sections = {
@@ -647,7 +628,22 @@ lua <<EOF
 		}
 	)
 
-	lsp_status.register_progress()
+	vim.cmd([[
+		highlight FidgetTitle ctermfg=110 guifg=#6cb6eb
+	]])
+
+	-- Standalone UI for nvim-lsp progress
+	require('fidget').setup({
+		sources = {
+			["null-ls"] = {
+				ignore = true,
+			},
+		},
+		timer = {
+			task_decay = 400,
+			fidget_decay = 700,
+		},
+	})
 
 	lspconfig.tsserver.setup({
 		capabilities = lspCapabilities,
