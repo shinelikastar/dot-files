@@ -52,8 +52,8 @@ inoremap [ []<Esc>ha
 set autoread
 
 " set mapleader
-let mapleader=","
-let g:mapleader=","
+let mapleader=";"
+let g:mapleader=";"
 
 " enable pretty highlighting on yank
 augroup highlight_yank
