@@ -573,7 +573,7 @@ lua <<EOF
 	}
 
 	null_ls.setup({
-		-- For :NullLsLog support
+		-- For :NullLsLog support, toggle to true
 		debug = false,
 		on_attach = on_attach,
 		capabilities = lspCapabilities,
@@ -584,7 +584,7 @@ lua <<EOF
 		),
 		sources = {
 			-- lua
-			-- null_ls.builtins.formatting.stylua,
+			null_ls.builtins.formatting.stylua,
 
 			-- ruby
 			null_ls.builtins.diagnostics.rubocop.with({
