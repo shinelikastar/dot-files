@@ -602,6 +602,13 @@ lua <<EOF
 			-- lua
 			-- null_ls.builtins.formatting.stylua,
 
+			-- ruby
+			null_ls.builtins.diagnostics.rubocop.with({
+				command = "scripts/bin/rubocop-daemon/rubocop",
+				timeout = 30000,
+				ignore_stderr = true,
+			}),
+
 			-- typescript
 			null_ls.builtins.formatting.prettier.with({
 				condition = hasPrettierConfig,
