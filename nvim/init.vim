@@ -33,6 +33,9 @@ set clipboard=unnamed
 "enable Y yank to end of line
 nnoremap Y y$
 
+" Allow ctrl+z backgrounding in of insert mode
+inoremap <C-Z> <Esc><C-Z>
+
 "create window splits with vv and ss
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
