@@ -66,15 +66,6 @@ set noswapfile
 set nobackup
 set nowb
 
-function! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-
-command! TrimWhitespace call TrimWhitespace()
-noremap <Leader>w :call TrimWhitespace()<CR>
-
 " function to source a file if it exists
 function! SourceIfExists(file)
   if filereadable(expand(a:file))
@@ -326,7 +317,7 @@ require'lualine'.setup {
 		lualine_c = {'diff'},
     lualine_x = {'filetype'},
     lualine_y = { lspStatus },
-    lualine_z = {'location'}
+    lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
@@ -490,7 +481,6 @@ lua <<EOF
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
-			-- { name = 'ultisnips' }, -- For ultisnips users.
     }, {
 			{
 				name = 'buffer',
