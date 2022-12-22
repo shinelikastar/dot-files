@@ -15,14 +15,6 @@ alias 0="tmux source-file ~/.tmux.conf"
 alias tk="tmux kill-server"
 alias tm="tmuxinator"
 
-# Edit this file without fuss
-function edit_alias() {
-  cd ~/.dot-files/custom
-  vim aliases.zsh
-  6
-  cd -
-}
-
 alias dot="cd ~/.dot-files/"
 
 # Git related
@@ -35,6 +27,7 @@ alias v="nvim"
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
 alias ps="cd ~/stripe/pay-server/"
+alias dashboot="pay start admin admin_metro justification justification_assets manage manage_ui_metro excelsior api api_rpc docs_manifests token-issuer-srv"
 
 # Workflow related
 alias p="work pr show"
@@ -45,6 +38,7 @@ alias r="work review"
 # Yarn stuff
 alias y="yarn" 
 
+# Website stuff
 WEBSITE="/Library/WebServer/Documents/shinelikastar.github.io"
 alias w="cd $WEBSITE"
 
