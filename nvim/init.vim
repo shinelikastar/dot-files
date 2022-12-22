@@ -60,8 +60,8 @@ let g:mapleader=";"
 
 " enable pretty highlighting on yank
 augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+	autocmd!
+	au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
 
 "turn off swap files
@@ -71,15 +71,14 @@ set nowb
 
 " function to source a file if it exists
 function! SourceIfExists(file)
-  if filereadable(expand(a:file))
-    exe 'source' a:file
-  endif
+	if filereadable(expand(a:file))
+		exe 'source' a:file
+	endif
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""
-
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
 
@@ -188,11 +187,11 @@ let test#vim#term_position = "vert"
 let g:test#javascript#mocha#file_pattern = '\v.*_test\.(js|jsx|ts|tsx)$'
 
 if exists('$TMUX')
-  " Use tmux to kick off tests if we are in tmux currently
-  let test#strategy = 'vimux'
+	" Use tmux to kick off tests if we are in tmux currently
+	let test#strategy = 'vimux'
 else
-  " Fallback to using terminal split
-  let test#strategy = "neovim"
+	" Fallback to using terminal split
+	let test#strategy = "neovim"
 endif
 
 let test#enabled_runners = ["lua#busted", "ruby#rspec"]
@@ -222,7 +221,6 @@ nnoremap <silent><space>la :CodeActionMenu<CR>
 """"""""""""""""""""""""""""""""""""""""
 " Tmux
 """"""""""""""""""""""""""""""""""""""""
-
 " set our shell to be bash for fast tmux switching times
 " see: https://github.com/christoomey/vim-tmux-navigator/issues/72
 set shell=/bin/bash\ --norc\ -i
@@ -247,7 +245,6 @@ END
 """"""""""""""""""""""""""""""""""""""""
 " Git
 """"""""""""""""""""""""""""""""""""""""
-
 " get GHE link of selected lines
 vnoremap <leader>g :GBrowse!<CR>
 
@@ -255,7 +252,6 @@ vnoremap <leader>g :GBrowse!<CR>
 " Lualine
 """"""""""""""""""""""""""""""""""""""""
 lua << END
-
 require'lualine'.setup {
   options = {
     icons_enabled = true,
@@ -271,8 +267,8 @@ require'lualine'.setup {
 			'filename',
 			path = 0,
 		}},
-		lualine_c = {'diff'},
-    lualine_x = {'filetype'},
+		lualine_c = {},
+    lualine_x = {'diff'},
     lualine_y = {},
     lualine_z = {}
   },
@@ -294,25 +290,31 @@ END
 """"""""""""""""""""""""""""""""""""""""
 lua <<LUA
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {
-    'bash',
-    'css',
-    'go',
-    'graphql',
-    'javascript',
-    'json',
-    'lua',
-    'nix',
-    'php',
-    'python',
-    'ruby',
-    'tsx',
-    'typescript',
-    'yaml',
-  },
-  highlight = { enable = true },
-  incremental_selection = { enable = true },
-  textobjects = { enable = true },
+	ensure_installed = {
+		'bash',
+		'css',
+		'go',
+		'graphql',
+		'javascript',
+		'json',
+		'lua',
+		'nix',
+		'php',
+		'python',
+		'ruby',
+		'tsx',
+		'typescript',
+		'yaml',
+	},
+	highlight = { 
+		enable = true 
+	},
+	incremental_selection = { 
+		enable = true 
+	},
+	textobjects = { 
+		enable = true 
+	},
 
 	-- Plugins
 	rainbow = {
@@ -692,8 +694,8 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimshell_force_overwrite_statusline = 0
 
 call vimfiler#custom#profile('default', 'context', {
-  \ 'safe': 0
-  \ })
+			\ 'safe': 0
+			\ })
 
 " bind the minus key to show the file explorer in the dir of the current open
 " buffer's file
