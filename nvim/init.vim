@@ -1,24 +1,24 @@
 """"""""""""""""""""""""""""""""""""""""
 " Settings
 """"""""""""""""""""""""""""""""""""""""
-syntax on								"syntax highlighting
-syntax enable						"use system color scheme
+syntax on					"syntax highlighting
+syntax enable					"use system color scheme
 set mouse=a
 set nowrap
 set linebreak
-set number							"show line number
-set showmode						"show current mode down the bottom
-set undolevels=1000			"undo levels
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15		"min number of columns to keep to right of cursor
+set number					"show line number
+set showmode					"show current mode down the bottom
+set undolevels=1000				"undo levels
+set scrolloff=8					"Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15				"min number of columns to keep to right of cursor
 set sidescroll=1				"min number of columns to scroll horizontally:w
-set timeoutlen=2000			"set leader timeout to be longer (default is 1000)
-set colorcolumn=81			"mark the 81st character with a column
+set timeoutlen=2000				"set leader timeout to be longer (default is 1000)
+set colorcolumn=81				"mark the 81st character with a column
 set textwidth=80				"set wrap to 80 characters
 
 " Indentation
 set autoindent					"copy indent from current line when starting a new line
-set tabstop=2						"number of space on a <Tab> character
+set tabstop=2					"number of space on a <Tab> character
 set shiftwidth=2				"let indent correspond to a single Tab
 set softtabstop=2				"inserts combo of space and tab to simulate tabstop
 set smarttab
@@ -87,21 +87,21 @@ Plug 'bluz71/vim-nightfly-guicolors'
 
 " Editing
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ggandor/lightspeed.nvim'        " successor to vim-sneak
-Plug 'tpope/vim-surround'             " cs`' to change `` to '', etc
-Plug 'tpope/vim-repeat'               " better . for plugins
-Plug 'liuchengxu/vim-which-key'				" display leader keys
-Plug 'tpope/vim-commentary'           " comment with `gcc`, uncomment with `gcgc`
-Plug 'kshenoy/vim-signature'          " show marks in the gutter
-Plug 'p00f/nvim-ts-rainbow'           " show parentheses pairs with different colors
-Plug 'windwp/nvim-ts-autotag'         " autoclose HTML tags
-Plug 'andymass/vim-matchup'						" extended matchers for %
-Plug 'nvim-lua/plenary.nvim'					" async support
+Plug 'ggandor/lightspeed.nvim'		" successor to vim-sneak
+Plug 'tpope/vim-surround'		" cs`' to change `` to '', etc
+Plug 'tpope/vim-repeat'			" better . for plugins
+Plug 'liuchengxu/vim-which-key'		" display leader keys
+Plug 'tpope/vim-commentary'		" comment with `gcc`, uncomment with `gcgc`
+Plug 'kshenoy/vim-signature'		" show marks in the gutter
+Plug 'p00f/nvim-ts-rainbow'		" show parentheses pairs with different colors
+Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
+Plug 'andymass/vim-matchup		" extended matchers for %
+Plug 'nvim-lua/plenary.nvim'		" async support
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'		" grepping through files
+Plug 'mileszs/ack.vim'			" grepping through files
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 
 " File finder
@@ -109,38 +109,38 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 
 " Git
-Plug 'airblade/vim-gitgutter'   " show changed line marks in gutter
-Plug 'tpope/vim-fugitive'       " the git plugin
-Plug 'tpope/vim-rhubarb'        " enable GHE/Github links with :Gbrowse
+Plug 'airblade/vim-gitgutter'		" show changed line marks in gutter
+Plug 'tpope/vim-fugitive'		" the git plugin
+Plug 'tpope/vim-rhubarb'		" enable GHE/Github links with :Gbrowse
 
 " Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
 " Markdown
-Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}  " markdown preview with :Glow
+Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}	" markdown preview with :Glow
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'				" display icons
+Plug 'kyazdani42/nvim-web-devicons'	" display icons
 
 " Syntax checking
-Plug 'lukas-reineke/lsp-format.nvim'      " LSP format on save, with multiple sequential LSPs + async
-Plug 'jose-elias-alvarez/null-ls.nvim'    " LSP for formatting/diagnostics
-Plug 'hrsh7th/cmp-nvim-lsp'								" hot autocomplete plugin
+Plug 'lukas-reineke/lsp-format.nvim'	" LSP format on save, with multiple sequential LSPs + async
+Plug 'jose-elias-alvarez/null-ls.nvim'	" LSP for formatting/diagnostics
+Plug 'hrsh7th/cmp-nvim-lsp'		" hot autocomplete plugin
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'onsails/lspkind-nvim'								" add vscode-style icons to completion menu
+Plug 'onsails/lspkind-nvim'		" add vscode-style icons to completion menu
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/lsp-status.nvim'          " provides statusline information for LSP
-Plug 'ray-x/lsp_signature.nvim'          " floating signature 'as you type'
-Plug 'nathunsmitty/nvim-ale-diagnostic'  " route lsp diagnostics to ALE
+Plug 'nvim-lua/lsp-status.nvim'		" provides statusline information for LSP
+Plug 'ray-x/lsp_signature.nvim'		" floating signature 'as you type'
+Plug 'nathunsmitty/nvim-ale-diagnostic'	" route lsp diagnostics to ALE
 Plug 'folke/trouble.nvim'
-Plug 'j-hui/fidget.nvim'								 " stand-alone status for nvim-lsp progress
+Plug 'j-hui/fidget.nvim'		" stand-alone status for nvim-lsp progress
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -153,8 +153,8 @@ Plug 'preservim/vimux'
 Plug 'janko-m/vim-test'
 
 " Tmux
-Plug 'christoomey/vim-tmux-navigator'  " makes ctrl+hjkl jump to Tmux panes and back
-Plug 'melonmanchan/vim-tmux-resizer'   " lets you resize Vim windows with alt+hjkl
+Plug 'christoomey/vim-tmux-navigator'	" makes ctrl+hjkl jump to Tmux panes and back
+Plug 'melonmanchan/vim-tmux-resizer'	" lets you resize Vim windows with alt+hjkl
 
 " Load Stripe-specific private plugins
 call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
