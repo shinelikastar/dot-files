@@ -29,11 +29,10 @@ set clipboard=unnamed
 """"""""""""""""""""""""""""""""""""""""
 " Custom mappings
 """"""""""""""""""""""""""""""""""""""""
-
 "enable Y yank to end of line
 nnoremap Y y$
 
-" Allow ctrl+z backgrounding in of insert mode
+"allow ctrl+z backgrounding in of insert mode
 inoremap <C-Z> <Esc><C-Z>
 
 "create window splits with vv and ss
@@ -139,7 +138,6 @@ Plug 'onsails/lspkind-nvim'		" add vscode-style icons to completion menu
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp-status.nvim'		" provides statusline information for LSP
 Plug 'ray-x/lsp_signature.nvim'		" floating signature 'as you type'
-Plug 'nathunsmitty/nvim-ale-diagnostic'	" route lsp diagnostics to ALE
 Plug 'folke/trouble.nvim'
 Plug 'j-hui/fidget.nvim'		" stand-alone status for nvim-lsp progress
 
