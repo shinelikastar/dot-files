@@ -25,12 +25,12 @@ vim.g.which_key_leader = {
   }
 }
 
-vim.g.which_key_leader[','] = {
+vim.g.which_key_leader[';'] = {
   ['name'] = '+easyotion',
 }
 
-vim.api.nvim_set_keymap("n", "<leader>", [[:<c-u>WhichKey ','<CR>]], { silent = true })
-vim.call('which_key#register', ',', "g:which_key_leader")
+vim.api.nvim_set_keymap("n", "<leader>", [[:<c-u>WhichKey ';'<CR>]], { silent = true })
+vim.call('which_key#register', ';', "g:which_key_leader")
 
 -- Spacebar maps
 
@@ -39,7 +39,6 @@ vim.g.which_key_space = {
   ['g']    = {
     ['name'] = '+git',
     ['b']    = 'blame',
-    ['g']    = 'neogit',
     ['m']    = 'show-commit-message',
     ['s']    = 'status',
   },

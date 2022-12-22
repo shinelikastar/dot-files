@@ -95,7 +95,7 @@ Plug 'tpope/vim-commentary'		" comment with `gcc`, uncomment with `gcgc`
 Plug 'kshenoy/vim-signature'		" show marks in the gutter
 Plug 'p00f/nvim-ts-rainbow'		" show parentheses pairs with different colors
 Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
-Plug 'andymass/vim-matchup		" extended matchers for %
+Plug 'andymass/vim-matchup'		" extended matchers for %
 Plug 'nvim-lua/plenary.nvim'		" async support
 
 " Fuzzy finder + grep
@@ -112,6 +112,7 @@ Plug 'Shougo/vimfiler.vim'
 Plug 'airblade/vim-gitgutter'		" show changed line marks in gutter
 Plug 'tpope/vim-fugitive'		" the git plugin
 Plug 'tpope/vim-rhubarb'		" enable GHE/Github links with :Gbrowse
+Plug 'rhysd/git-messenger.vim'	"look at git commits inline
 
 " Javascript
 Plug 'pangloss/vim-javascript'
@@ -227,6 +228,9 @@ set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
 
+""""""""""""""""""""""""""""""""""""""""
+" Git
+""""""""""""""""""""""""""""""""""""""""
 " Fix :Gbrowse, etc in fugitive
 let g:github_enterprise_urls = ['https://git.corp.stripe.com']
 
@@ -242,11 +246,13 @@ lua << END
 	})
 END
 
-""""""""""""""""""""""""""""""""""""""""
-" Git
-""""""""""""""""""""""""""""""""""""""""
 " get GHE link of selected lines
 vnoremap <leader>g :GBrowse!<CR>
+
+" Handy git shortcuts
+nnoremap <silent><space>gm :GitMessenger<CR>
+nnoremap <silent><space>gb :Git blame<CR>
+nnoremap <silent><space>gs :Git status<CR>
 
 """"""""""""""""""""""""""""""""""""""""
 " Lualine
