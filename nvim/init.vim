@@ -182,9 +182,10 @@ colorscheme nightfly
 let g:nightflyUnderlineMatchParen = 1
 
 """"""""""""""""""""""""""""""""""""""""
-" FZF
+" Config
 """"""""""""""""""""""""""""""""""""""""
 lua require("fzf")
+lua require("which-key")
 
 " vim-test
 """"""""""""""""""""""""""""""""""""""""
@@ -283,8 +284,8 @@ require'lualine'.setup {
 			'filename',
 			path = 0,
 		}},
-		lualine_c = {},
-    lualine_x = {'diff'},
+		lualine_c = {'diff'},
+    lualine_x = {'diagnostics'},
     lualine_y = {},
     lualine_z = {}
   },
@@ -718,13 +719,7 @@ call vimfiler#custom#profile('default', 'context', {
 nnoremap - :VimFilerBufferDir<CR>
 
 """"""""""""""""""""""""""""""""""""""""
-" which-key
-""""""""""""""""""""""""""""""""""""""""
-lua require("which-key")
-
-""""""""""""""""""""""""""""""""""""""""
 " Private config
 """"""""""""""""""""""""""""""""""""""""
-
 " Load Stripe-specific private config
 call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
