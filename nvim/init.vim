@@ -269,6 +269,14 @@ nnoremap <silent><space>gs :Git status<CR>
 " Lualine
 """"""""""""""""""""""""""""""""""""""""
 lua << END
+-- Color table for highlights
+-- stylua: ignore
+local colors = {
+  green    = '#50C878',
+  orange   = '#FF8800',
+  red      = '#ec5f67',
+}
+
 require'lualine'.setup {
   options = {
     icons_enabled = true,
@@ -290,6 +298,11 @@ require'lualine'.setup {
       {
         'diff',
         symbols = { added = ' ', modified = '柳', removed = ' ' },
+        diff_color = {
+          added = { fg = colors.green },
+          modified = { fg = colors.orange },
+          removed = { fg = colors.red },
+        },
       }
     },
     lualine_x = {'searchcount'},
