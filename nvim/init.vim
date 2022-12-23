@@ -74,6 +74,12 @@ set noswapfile
 set nobackup
 set nowb
 
+" Keep undo history across sessions, by storing in file.
+if has('persistent_undo')
+  set undodir=~/.vim/backups
+  set undofile
+endif
+
 " function to source a file if it exists
 function! SourceIfExists(file)
 	if filereadable(expand(a:file))
