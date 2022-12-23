@@ -22,6 +22,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 ### END APIORI GO
 
+# Cargo
+export PATH="/Users/starsu/.cargo/bin:$PATH"
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/starsu/.oh-my-zsh"
 

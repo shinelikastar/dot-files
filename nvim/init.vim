@@ -568,7 +568,7 @@ lua <<EOF
 		),
 		sources = {
 			-- lua
-			-- null_ls.builtins.formatting.stylua,
+			null_ls.builtins.formatting.stylua,
 
 			-- ruby
 			null_ls.builtins.diagnostics.rubocop.with({
