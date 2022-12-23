@@ -4,7 +4,7 @@
 syntax on					"syntax highlighting
 syntax enable					"use system color scheme
 set mouse=a
-set nowrap
+set nowrap					"don't wrap lines
 set linebreak
 set number					"show line number
 set showmode					"show current mode down the bottom
@@ -18,10 +18,16 @@ set textwidth=80				"set wrap to 80 characters
 
 " Indentation
 set autoindent					"copy indent from current line when starting a new line
+set smartindent
+set smarttab
 set tabstop=2					"number of space on a <Tab> character
 set shiftwidth=2				"let indent correspond to a single Tab
 set softtabstop=2				"inserts combo of space and tab to simulate tabstop
-set smarttab
+set expandtab
+set list listchars=tab:\ \ ,trail:·				"display trailing tabs and spaces
+
+filetype plugin on
+filetype indent on
 
 "stash yanked area into OSX clipboard
 set clipboard=unnamed
