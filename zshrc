@@ -93,3 +93,4 @@ bindkey '^ ' autosuggest-accept
 
 # p10k prompt
 source ~/powerlevel10k/powerlevel10k.zsh-theme
+alias luamake=/Users/starsu/stripe/lua-language-server/3rd/luamake/luamake
