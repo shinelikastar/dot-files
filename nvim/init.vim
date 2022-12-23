@@ -1,6 +1,6 @@
-""""""""""""""""""""""""""""""""""""""""
-" Settings
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Settings                                                 │
+" ╰──────────────────────────────────────────────────────────╯
 syntax on					"syntax highlighting
 syntax enable					"use system color scheme
 set mouse=a
@@ -32,9 +32,9 @@ filetype indent on
 "stash yanked area into OSX clipboard
 set clipboard=unnamed
 
-""""""""""""""""""""""""""""""""""""""""
-" Custom mappings
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Custom mappings                                          │
+" ╰──────────────────────────────────────────────────────────╯
 "enable Y yank to end of line
 nnoremap Y y$
 
@@ -87,9 +87,9 @@ function! SourceIfExists(file)
 	endif
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""
-" Plugins
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Plugins                                                  │
+" ╰──────────────────────────────────────────────────────────╯
 " To install new plugins, run :PlugInstall
 call plug#begin('~/.local/nvim/plugins')
 
@@ -108,6 +108,7 @@ Plug 'p00f/nvim-ts-rainbow'		" show parentheses pairs with different colors
 Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
 Plug 'andymass/vim-matchup'		" extended matchers for %
 Plug 'nvim-lua/plenary.nvim'		" async support
+Plug 'LudoPinelli/comment-box.nvim'		" comment box
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
@@ -172,18 +173,18 @@ call SourceIfExists('~/.dot-files-overlay/nvim/plugins.vim')
 
 call plug#end()
 
-""""""""""""""""""""""""""""""""""""""""
-" Colors
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Colors                                                   │
+" ╰──────────────────────────────────────────────────────────╯
 set termguicolors
 colorscheme nightfly
 
 " underline matching parens
 let g:nightflyUnderlineMatchParen = 1
 
-""""""""""""""""""""""""""""""""""""""""
-" Config
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Config                                                   │
+" ╰──────────────────────────────────────────────────────────╯
 lua require("fzf")
 lua require("which-key")
 lua require("statusline")
@@ -191,9 +192,17 @@ lua require("vim-test")
 lua require("git-messenger")
 lua require("fugitive")
 
-""""""""""""""""""""""""""""""""""""""""
-" trouble.vim
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ comment-box                                              │
+" ╰──────────────────────────────────────────────────────────╯
+nnoremap <Space>bb <Cmd>lua require('comment-box').lbox()<CR>
+vnoremap <Space>bb <Cmd>lua require('comment-box').lbox()<CR>
+nnoremap <Space>bc <Cmd>lua require('comment-box').cbox()<CR>
+vnoremap <Space>bc <Cmd>lua require('comment-box').cbox()<CR>
+
+" ╭──────────────────────────────────────────────────────────╮
+" │ trouble.vim                                              │
+" ╰──────────────────────────────────────────────────────────╯
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
 nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
@@ -204,23 +213,23 @@ nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 command! -nargs=1 -complete=dir FixTSExpectError :lua require('stripe.ts-lint-expect-error').findTsExpectErrors(<f-args>)<CR>
 
-""""""""""""""""""""""""""""""""""""""""
-" Quickfix
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Quickfix                                                 │
+" ╰──────────────────────────────────────────────────────────╯
 nnoremap <silent><space>la :CodeActionMenu<CR>
 
-""""""""""""""""""""""""""""""""""""""""
-" Tmux
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Tmux                                                     │
+" ╰──────────────────────────────────────────────────────────╯
 " set our shell to be bash for fast tmux switching times
 " see: https://github.com/christoomey/vim-tmux-navigator/issues/72
 set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
 
-""""""""""""""""""""""""""""""""""""""""
-" treesitter
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ treesitter                                               │
+" ╰──────────────────────────────────────────────────────────╯
 lua <<LUA
 require('nvim-treesitter.configs').setup {
 	ensure_installed = {
@@ -259,9 +268,9 @@ require('nvim-treesitter.configs').setup {
 }
 LUA
 
-""""""""""""""""""""""""""""""""""""""""
-" lightspeed
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ lightspeed                                               │
+" ╰──────────────────────────────────────────────────────────╯
 lua <<LUA
 require('lightspeed').setup({
   match_only_the_start_of_same_char_seqs = true,
@@ -271,9 +280,9 @@ LUA
 
 nmap s <Plug>Lightspeed_s
 
-""""""""""""""""""""""""""""""""""""""""
-" ripgrep
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ ripgrep                                                  │
+" ╰──────────────────────────────────────────────────────────╯
 let g:ackprg = 'rg --vimgrep --no-heading'
 
 cnoreabbrev Ack Ack!
@@ -281,9 +290,9 @@ cnoreabbrev Ack Ack!
 nnoremap <Leader>a :Ack!<Space>
 nnoremap <Leader>A :Ack!<CR>
 
-""""""""""""""""""""""""""""""""""""""""
-" LSP
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ LSP                                                      │
+" ╰──────────────────────────────────────────────────────────╯
 nnoremap <silent> <space>li  :LspInfo<CR>
 nnoremap <silent> <space>ld  <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <space>lh  <cmd>lua vim.lsp.buf.hover()<CR>
@@ -301,15 +310,15 @@ set updatetime=300
 " gutter space for lsp info on left
 set signcolumn=yes
 
-""""""""""""""""""""""""""""""""""""""""
-" diagnostics
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ diagnostics                                              │
+" ╰──────────────────────────────────────────────────────────╯
 nnoremap <silent> gj :lua vim.diagnostic.goto_next()<cr>
 nnoremap <silent> gk :lua vim.diagnostic.goto_prev()<cr>
 
-""""""""""""""""""""""""""""""""""""""""
-" nvim-cmp
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ nvim-cmp                                                 │
+" ╰──────────────────────────────────────────────────────────╯
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
@@ -620,8 +629,9 @@ lua <<EOF
   end
 EOF
 
-" ============== File browser =================
-"
+" ╭──────────────────────────────────────────────────────────╮
+" │ File browser                                             │
+" ╰──────────────────────────────────────────────────────────╯
 let g:vimfiler_force_overwrite_statusline = 0
 let g:vimfiler_as_default_explorer = 1
 let g:vimshell_force_overwrite_statusline = 0
@@ -634,8 +644,8 @@ call vimfiler#custom#profile('default', 'context', {
 " buffer's file
 nnoremap - :VimFilerBufferDir<CR>
 
-""""""""""""""""""""""""""""""""""""""""
-" Private config
-""""""""""""""""""""""""""""""""""""""""
+" ╭──────────────────────────────────────────────────────────╮
+" │ Private config                                           │
+" ╰──────────────────────────────────────────────────────────╯
 " Load Stripe-specific private config
 call SourceIfExists('~/.dot-files-overlay/nvim/config.vim')
