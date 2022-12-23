@@ -196,6 +196,9 @@ lua require("git-messenger")
 lua require("fugitive")
 lua require("comment")
 lua require("lightspeed-config")
+lua require("treesitter")
+lua require("tmux-navigator")
+lua require("tmux-resizer")
 
 " ╭──────────────────────────────────────────────────────────╮
 " │ trouble.vim                                              │
@@ -209,61 +212,6 @@ nnoremap <leader>xr <cmd>TroubleRefresh<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 command! -nargs=1 -complete=dir FixTSExpectError :lua require('stripe.ts-lint-expect-error').findTsExpectErrors(<f-args>)<CR>
-
-" ╭──────────────────────────────────────────────────────────╮
-" │ Quickfix                                                 │
-" ╰──────────────────────────────────────────────────────────╯
-nnoremap <silent><space>la :CodeActionMenu<CR>
-
-" ╭──────────────────────────────────────────────────────────╮
-" │ Tmux                                                     │
-" ╰──────────────────────────────────────────────────────────╯
-" set our shell to be bash for fast tmux switching times
-" see: https://github.com/christoomey/vim-tmux-navigator/issues/72
-set shell=/bin/bash\ --norc\ -i
-
-let g:tmux_resizer_no_mappings = 0
-
-" ╭──────────────────────────────────────────────────────────╮
-" │ treesitter                                               │
-" ╰──────────────────────────────────────────────────────────╯
-lua <<LUA
-require('nvim-treesitter.configs').setup {
-	ensure_installed = {
-		'bash',
-		'css',
-		'go',
-		'graphql',
-		'javascript',
-		'json',
-		'lua',
-		'nix',
-		'php',
-		'python',
-		'ruby',
-		'tsx',
-		'typescript',
-		'yaml',
-	},
-	highlight = { 
-		enable = true 
-	},
-	incremental_selection = { 
-		enable = true 
-	},
-	textobjects = { 
-		enable = true 
-	},
-
-	-- Plugins
-	rainbow = {
-    enable = true,
-  },
-	matchup = {
-    enable = true,
-  },
-}
-LUA
 
 " ╭──────────────────────────────────────────────────────────╮
 " │ ripgrep                                                  │
