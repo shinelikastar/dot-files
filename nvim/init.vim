@@ -16,7 +16,7 @@ set timeoutlen=2000				"set leader timeout to be longer (default is 1000)
 set colorcolumn=81				"mark the 81st character with a column
 set textwidth=80				"set wrap to 80 characters
 
-" Indentation
+"Indentation
 set autoindent					"copy indent from current line when starting a new line
 set smartindent
 set smarttab
@@ -28,6 +28,9 @@ set list listchars=tab:\ \ ,trail:·				"display trailing tabs and spaces
 
 filetype plugin on
 filetype indent on
+
+"Autocomplete
+set completeopt=menu,menuone,noselect
 
 "stash yanked area into OSX clipboard
 set clipboard=unnamed
@@ -192,6 +195,7 @@ lua require("vim-test")
 lua require("git-messenger")
 lua require("fugitive")
 lua require("comment")
+lua require("lightspeed-config")
 
 " ╭──────────────────────────────────────────────────────────╮
 " │ trouble.vim                                              │
@@ -262,18 +266,6 @@ require('nvim-treesitter.configs').setup {
 LUA
 
 " ╭──────────────────────────────────────────────────────────╮
-" │ lightspeed                                               │
-" ╰──────────────────────────────────────────────────────────╯
-lua <<LUA
-require('lightspeed').setup({
-  match_only_the_start_of_same_char_seqs = true,
-  limit_ft_matches = 5,
-})
-LUA
-
-nmap s <Plug>Lightspeed_s
-
-" ╭──────────────────────────────────────────────────────────╮
 " │ ripgrep                                                  │
 " ╰──────────────────────────────────────────────────────────╯
 let g:ackprg = 'rg --vimgrep --no-heading'
@@ -312,7 +304,6 @@ nnoremap <silent> gk :lua vim.diagnostic.goto_prev()<cr>
 " ╭──────────────────────────────────────────────────────────╮
 " │ nvim-cmp                                                 │
 " ╰──────────────────────────────────────────────────────────╯
-set completeopt=menu,menuone,noselect
 
 lua <<EOF
   local cmp = require'cmp'
