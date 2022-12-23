@@ -188,6 +188,8 @@ lua require("fzf")
 lua require("which-key")
 lua require("statusline")
 lua require("vim-test")
+lua require("git-messenger")
+lua require("fugitive")
 
 """"""""""""""""""""""""""""""""""""""""
 " trouble.vim
@@ -215,32 +217,6 @@ nnoremap <silent><space>la :CodeActionMenu<CR>
 set shell=/bin/bash\ --norc\ -i
 
 let g:tmux_resizer_no_mappings = 0
-
-""""""""""""""""""""""""""""""""""""""""
-" Git
-""""""""""""""""""""""""""""""""""""""""
-" Fix :Gbrowse, etc in fugitive
-let g:github_enterprise_urls = ['https://git.corp.stripe.com']
-
-lua << END
-	-- Every time you open a git object using fugitive it creates a new buffer.
-	-- This means that your buffer listing can quickly become swamped with
-	-- fugitive buffers. This prevents this from becomming an issue:
-	vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
-		pattern = { 'fugitive://*' },
-		callback = function()
-			vim.cmd([[set bufhidden=delete]])
-		end,
-	})
-END
-
-" get GHE link of selected lines
-vnoremap <leader>g :GBrowse!<CR>
-
-" Handy git shortcuts
-nnoremap <silent><space>gm :GitMessenger<CR>
-nnoremap <silent><space>gb :Git blame<CR>
-nnoremap <silent><space>gs :Git status<CR>
 
 """"""""""""""""""""""""""""""""""""""""
 " treesitter
