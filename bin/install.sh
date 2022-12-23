@@ -95,6 +95,21 @@ function install_autojump() {
   fi
 }
 
+function install_rust() {
+  if brew_package_installed rust ; then
+    dotsay "@green + rust is already installed"
+  else
+    dotsay "@magenta + installing rust..."
+
+    brew install rust
+  fi
+}
+
+function install_stylua() {
+	dotsay "@magenta + installing stylua..."
+	cargo install stylua
+}
+
 function install_ohmyzsh() {
   dotsay "@yellow + installing ohmyzsh..."
 
@@ -213,6 +228,8 @@ install_ohmyzsh
 install_abbrev_alias
 install_zsh_autosuggestions
 install_zsh_syntax_highlighting
+install_rust
+install_stylua
 install_tmux
 install_tpm
 install_typescript_language_server
