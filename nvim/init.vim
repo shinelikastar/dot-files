@@ -188,17 +188,17 @@ let g:nightflyUnderlineMatchParen = 1
 " ╭──────────────────────────────────────────────────────────╮
 " │ Config                                                   │
 " ╰──────────────────────────────────────────────────────────╯
-lua require("fzf")
-lua require("which-key")
-lua require("statusline")
-lua require("vim-test")
-lua require("git-messenger")
-lua require("fugitive")
-lua require("comment")
-lua require("lightspeed-config")
-lua require("treesitter")
-lua require("tmux-navigator")
-lua require("tmux-resizer")
+lua require("config.fzf")
+lua require("config.which-key")
+lua require("config.statusline")
+lua require("config.vim-test")
+lua require("config.git-messenger")
+lua require("config.fugitive")
+lua require("config.comment")
+lua require("config.lightspeed-config")
+lua require("config.treesitter")
+lua require("config.tmux-navigator")
+lua require("config.tmux-resizer")
 
 " ╭──────────────────────────────────────────────────────────╮
 " │ trouble.vim                                              │
