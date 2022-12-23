@@ -280,14 +280,21 @@ require'lualine'.setup {
   },
   sections = {
 		lualine_a = {'mode'},
-		lualine_b = {{
-			'filename',
-			path = 0,
-		}},
-		lualine_c = {'diff'},
-    lualine_x = {'diagnostics'},
+		lualine_b = {
+      {
+        'filename',
+        path = 0,
+      }
+    },
+		lualine_c = { 
+      {
+        'diff',
+        symbols = { added = ' ', modified = '柳', removed = ' ' },
+      }
+    },
+    lualine_x = {'searchcount'},
     lualine_y = {},
-    lualine_z = {}
+    lualine_z = {'diagnostics'}
   },
   inactive_sections = {
     lualine_a = {},
@@ -570,7 +577,7 @@ lua <<EOF
 	}
 
 	null_ls.setup({
-		-- For :NullLsLog support
+		-- For :NullLsLog support, toggle to true
 		debug = false,
 		on_attach = on_attach,
 		capabilities = lspCapabilities,
