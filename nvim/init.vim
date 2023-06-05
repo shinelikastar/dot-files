@@ -90,6 +90,9 @@ function! SourceIfExists(file)
 	endif
 endfunction
 
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
 " ╭──────────────────────────────────────────────────────────╮
 " │ Plugins                                                  │
 " ╰──────────────────────────────────────────────────────────╯
@@ -112,6 +115,7 @@ Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
 Plug 'andymass/vim-matchup'		" extended matchers for %
 Plug 'nvim-lua/plenary.nvim'		" async support
 Plug 'LudoPinelli/comment-box.nvim'		" comment box
+Plug 'github/copilot.vim'
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
