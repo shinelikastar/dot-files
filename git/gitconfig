@@ -146,17 +146,17 @@
 
 [interactive]
   singlekey = true
-[gpg]
-	program = /usr/local/bin/gpg
-[commit]
-	gpgsign = true
+
+[work "pr"]
+	auto-copy-url-to-clipboard = false
+
+[work "features"]
+	gh = true
+
 [user]
 	signingkey = 5B0903C870EEE6600353B9EC78B72A708C56C4E7
 	name = star
 	email = starsu@stripe.com
-[hub]
-	protocol = ssh
-[work "features"]
-	gh = true
+
 [safe]
 	directory = /Library/WebServer/Documents/shinelikastar.github.io
