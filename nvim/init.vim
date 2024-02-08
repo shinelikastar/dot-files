@@ -90,9 +90,6 @@ function! SourceIfExists(file)
 	endif
 endfunction
 
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
-
 " ╭──────────────────────────────────────────────────────────╮
 " │ Plugins                                                  │
 " ╰──────────────────────────────────────────────────────────╯
@@ -110,12 +107,10 @@ Plug 'tpope/vim-repeat'			" better . for plugins
 Plug 'liuchengxu/vim-which-key'		" display leader keys
 Plug 'tpope/vim-commentary'		" comment with `gcc`, uncomment with `gcgc`
 Plug 'kshenoy/vim-signature'		" show marks in the gutter
-Plug 'p00f/nvim-ts-rainbow'		" show parentheses pairs with different colors
 Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
 Plug 'andymass/vim-matchup'		" extended matchers for %
 Plug 'nvim-lua/plenary.nvim'		" async support
 Plug 'LudoPinelli/comment-box.nvim'		" comment box
-Plug 'github/copilot.vim'
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
@@ -428,6 +423,7 @@ lua <<EOF
 	local eslintConfig = {
 		condition = hasEslintConfig,
 		filter = ignorePrettierRules,
+    timeout = 30000,
 	}
 
 	null_ls.setup({
@@ -441,11 +437,11 @@ lua <<EOF
 			"package.json"
 		),
 		sources = {
-			-- lua
-			null_ls.builtins.formatting.stylua,
-
 			-- ruby
 			null_ls.builtins.diagnostics.rubocop.with({
+        condition = function()
+						return vim.fn.executable("scripts/bin/rubocop-daemon/rubocop") > 0
+        end,
 				command = "scripts/bin/rubocop-daemon/rubocop",
 				timeout = 30000,
 				ignore_stderr = true,
