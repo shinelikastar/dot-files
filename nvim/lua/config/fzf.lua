@@ -7,7 +7,7 @@ require("fzf-lua").setup({
 	files = {
 		actions = {
 			["default"] = actions.file_edit_or_qf,
-			["ctrl-x"] = actions.file_split,
+			["ctrl-s"] = actions.file_split,
 			["ctrl-v"] = actions.file_vsplit,
 			["ctrl-t"] = actions.file_tabedit,
 			["alt-q"] = actions.file_sel_to_qf,
