@@ -58,24 +58,6 @@ source $ZSH/oh-my-zsh.sh
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export PATH="$PATH:$HOME/stripe/work/exe"
 
-# Enable git branch fzf search with "g co ** <TAB>"
-_fzf_complete_git() {
-    ARGS="$@"
-    local branches
-    branches=$(git branch -vv --all)
-    if [[ $ARGS == 'g co'* ]]; then
-        _fzf_complete --reverse --multi -- "$@" < <(
-            echo $branches
-        )
-    else
-        eval "zle ${fzf_default_completion:-expand-or-complete}"
-    fi
-}
-
-_fzf_complete_git_post() {
-    awk '{print $1}'
-}
-
 [[ ! -f ~/.dot-files/p10k.zsh ]] || source ~/.dot-files/p10k.zsh
 [ -f ~/.base16_theme ] && source ~/.base16_theme
 
@@ -90,7 +72,11 @@ bindkey -M viins 'jk' vi-cmd-mode
 
 # bind zsh-autosuggestion to CMD-space
 bindkey '^ ' autosuggest-accept
+bindkey '\C-i' autosuggest-execute
 
 # p10k prompt
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 alias luamake=/Users/starsu/stripe/lua-language-server/3rd/luamake/luamake
+
+# source Stripe stuff
+source ~/.stripe/shellinit/bash_profile
