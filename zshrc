@@ -12,7 +12,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         source "$BASE16_SHELL/profile_helper.sh"
-        
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/starsu/.oh-my-zsh"
 
@@ -60,7 +60,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-    
+
 # User configuration
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export PATH="$PATH:$HOME/stripe/work/exe"
@@ -87,3 +87,9 @@ alias luamake=/Users/starsu/stripe/lua-language-server/3rd/luamake/luamake
 
 # source Stripe stuff
 source ~/.stripe/shellinit/bash_profile
+
+# START - Managed by chef cookbook stripe_cpe_bin
+# alias tc='/usr/local/stripe/bin/test_cookbook'
+# alias cz='/usr/local/stripe/bin/chef-zero'
+# alias cookit='tc && cz'
+# STOP - Managed by chef cookbook stripe_cpe_bin
