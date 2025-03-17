@@ -17,6 +17,10 @@ require("fzf-lua").setup({
 		git_icons = false,
 		raw_cmd = "rg --files --hidden --glob '!{node_modules/*,.git/*}'",
 	},
+	buffers = {
+		file_icons = false,
+		git_icons = false,
+	},
 	git = {
 		file_icons = false,
 		git_icons = false,
@@ -27,7 +31,8 @@ require("fzf-lua").setup({
 	},
 	winopts = {
 		preview = {
-			layout = "vertical",
+      -- put preview on the right side
+			layout = "horizontal",
 		},
 	},
 })

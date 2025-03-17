@@ -111,6 +111,10 @@ Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
 Plug 'andymass/vim-matchup'		" extended matchers for %
 Plug 'nvim-lua/plenary.nvim'		" async support
 Plug 'LudoPinelli/comment-box.nvim'		" comment box
+Plug 'romgrk/nvim-treesitter-context'  " add context to top of a file
+Plug 'rmagatti/auto-session'           " save buffers upon quit
+Plug 'stevearc/dressing.nvim'          " have a nice menu for code actions
+Plug 'Wansmer/treesj'                  " easily split and join
 
 " Fuzzy finder + grep
 Plug 'junegunn/fzf'
@@ -235,6 +239,7 @@ nnoremap <silent> <space>lw  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <space>lk  <cmd>lua vim.diagnostic.open_float({scope="line"})<CR>
 nnoremap <silent> <space>lD  <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <space>l0  <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <space>lc  <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " 300ms before CursorHold events fire (like hover text on errors)
 set updatetime=300
@@ -439,10 +444,7 @@ lua <<EOF
 		sources = {
 			-- ruby
 			null_ls.builtins.diagnostics.rubocop.with({
-        condition = function()
-						return vim.fn.executable("scripts/bin/rubocop-daemon/rubocop") > 0
-        end,
-				command = "scripts/bin/rubocop-daemon/rubocop",
+				command = "scripts/bin/rubocop-vscode/rubocop",
 				timeout = 30000,
 				ignore_stderr = true,
 			}),
@@ -491,18 +493,9 @@ lua <<EOF
 
 	-- Standalone UI for nvim-lsp progress
 	require('fidget').setup({
-		sources = {
-			["null-ls"] = {
-				ignore = true,
-			},
-		},
-		timer = {
-			task_decay = 400,
-			fidget_decay = 700,
-		},
 	})
 
-	lspconfig.tsserver.setup({
+	lspconfig.ts_ls.setup({
 		capabilities = lspCapabilities,
 		cmd_env = { NODE_OPTIONS = "--max-old-space-size=8192" }, -- Give 8gb of RAM to node
 		filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
@@ -538,7 +531,6 @@ lua <<EOF
 			"scripts/bin/typecheck",
 			"--lsp",
 			"--enable-all-experimental-lsp-features",
-			-- "--enable-experimental-lsp-document-formatting-rubyfmt",
 		},
 		root_dir = lspconfig.util.root_pattern("sorbet", ".git"),
 		settings = {},
@@ -559,6 +551,43 @@ lua <<EOF
     }
     vim.lsp.handlers["$/progress"](err, message, context, config)
   end
+
+  -- Copy file paths to clipboard
+  vim.keymap.set("n", "<leader>yf", function()
+    local relative_path = vim.fn.expand("%")
+    vim.fn.setreg("*", relative_path)
+    vim.notify("Copied relative path: " .. relative_path)
+  end, { desc = "Copy relative filepath to clipboard" })
+
+  require("auto-session").setup {
+    suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+  }
+
+  require("treesitter-context").setup({ max_lines = 2 })
+
+  require("dressing").setup({})
+
+  require("treesj").setup({
+    use_default_keymaps = false,
+  })
+
+  vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = "*",
+    callback = function()
+      vim.keymap.set(
+        "n",
+        "gS",
+        "<Cmd>TSJSplit<CR>",
+        { buffer = true, desc = "[S]plit under cursor" }
+      )
+      vim.keymap.set(
+        "n",
+        "gJ",
+        "<Cmd>TSJJoin<CR>",
+        { buffer = true, desc = "[J]oin under cursor" }
+      )
+    end,
+  })
 EOF
 
 " ╭──────────────────────────────────────────────────────────╮
