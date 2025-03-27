@@ -99,7 +99,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ggandor/lightspeed.nvim'		" successor to vim-sneak
 Plug 'tpope/vim-surround'		" cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'			" better . for plugins
-Plug 'liuchengxu/vim-which-key'		" display leader keys
+Plug 'folke/which-key.nvim'		" display leader keys
 Plug 'tpope/vim-commentary'		" comment with `gcc`, uncomment with `gcgc`
 Plug 'kshenoy/vim-signature'		" show marks in the gutter
 Plug 'windwp/nvim-ts-autotag'		" autoclose HTML tags
@@ -137,6 +137,7 @@ Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}	" markdown preview with :Glow
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'	" display icons
+Plug 'echasnovski/mini.icons'
 
 " Syntax checking
 Plug 'lukas-reineke/lsp-format.nvim'	" LSP format on save, with multiple sequential LSPs + async
@@ -187,7 +188,6 @@ let g:nightflyUnderlineMatchParen = 1
 " │ Config                                                   │
 " ╰──────────────────────────────────────────────────────────╯
 lua require("config.fzf")
-lua require("config.which-key")
 lua require("config.statusline")
 lua require("config.vim-test")
 lua require("config.git-messenger")
@@ -582,6 +582,17 @@ lua <<EOF
         { buffer = true, desc = "[J]oin under cursor" }
       )
     end,
+  })
+
+  require("which-key").setup({
+    spec = {
+      { "<leader>b", group = "+comment-box" },
+      { "<leader>l", group = "+lsp" },
+      { "<leader>m", group = "+marks" },
+      { "<leader>n", group = "+a[n]notations" },
+      { "<leader>s", group = "+search" },
+      { "<leader>x", group = "+trouble" },
+    },
   })
 EOF
 
