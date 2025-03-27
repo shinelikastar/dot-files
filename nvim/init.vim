@@ -54,11 +54,6 @@ nnoremap <nowait><silent> <C-c> :set hlsearch!<CR>
 "remap ESC to jk
 inoremap jk <Esc>
 
-"close parens and quotes for me
-inoremap { {}<Esc>ha
-inoremap ( ()<Esc>ha
-inoremap [ []<Esc>ha
-
 "reload file if it changes on disk
 set autoread
 
