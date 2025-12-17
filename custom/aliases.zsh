@@ -26,7 +26,6 @@ alias v="nvim"
 
 # Work related
 alias j3="cd ~/stripe/stripe-js-v3/"
-alias ps="cd ~/stripe/pay-server/"
 alias dashboot="pay start admin admin_metro justification justification_assets manage manage_ui_metro excelsior api api_rpc docs_manifests token-issuer-srv"
 
 # Workflow related

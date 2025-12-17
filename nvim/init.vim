@@ -155,6 +155,8 @@ Plug 'nvim-lua/lsp-status.nvim'		" provides statusline information for LSP
 Plug 'ray-x/lsp_signature.nvim'		" floating signature 'as you type'
 Plug 'folke/trouble.nvim'
 Plug 'j-hui/fidget.nvim'		" stand-alone status for nvim-lsp progress
+Plug 'pmizio/typescript-tools.nvim' " Typescript LSP
+Plug 'davidosomething/format-ts-errors.nvim' " better error formatting
 
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -490,31 +492,62 @@ lua <<EOF
 	require('fidget').setup({
 	})
 
-	lspconfig.ts_ls.setup({
-		capabilities = lspCapabilities,
-		cmd_env = { NODE_OPTIONS = "--max-old-space-size=8192" }, -- Give 8gb of RAM to node
-		filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-		init_options = {
-			maxTsServerMemory = "8192",
-			preferences = {
-				-- Ensure we always import from absolute paths
-				importModuleSpecifierPreference = "non-relative",
-			},
-		},
-		root_dir = lspconfig.util.root_pattern("tsconfig.json"),
-		on_attach = function(client, bufnr)
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
+  require("typescript-tools").setup({
+    on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
 
-			if client.config.flags then
-				client.config.flags.allow_incremental_sync = true
-			end
+      if client.config.flags then
+        client.config.flags.allow_incremental_sync = true
+      end
 
-			on_attach(client, bufnr)
-		end
-	})
+      on_attach(client, bufnr)
+    end,
+    root_dir = require("lspconfig").util.root_pattern("tsconfig.json"),
+    settings = {
+      expose_as_code_action = "all",
+      separate_diagnostic_server = true,
+      publish_diagnostic_on = "insert_leave",
+      -- Apparently "auto" is a lie, we should set an actual maximum
+      tsserver_max_memory = 8192,
+      tsserver_locale = "en",
+      -- tsserver_logs = "verbose",
+      tsserver_file_preferences = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+
+        -- Ensure we always import from absolute paths
+        importModuleSpecifierPreference = "non-relative",
+      },
+    },
+    handlers = {
+      ["textDocument/publishDiagnostics"] = function(_, result, ctx, lspConfig)
+        if result.diagnostics == nil then
+          return
+        end
+
+        -- Format errors better in TS
+        local format_ts_errors = require("format-ts-errors")
+        for _, entry in ipairs(result.diagnostics) do
+          local formatter = format_ts_errors[entry.code]
+          if formatter then
+            entry.message = formatter(entry.message)
+          end
+        end
+
+        vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, lspConfig)
+      end,
+    },
+  })
 
 	lspconfig.sorbet.setup({
+    on_attach = on_attach,
 		capabilities = lspCapabilities,
 		init_options = {
       supportsOperationNotifications = true,

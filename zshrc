@@ -16,6 +16,9 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/starsu/.oh-my-zsh"
 
+# Set editor to neovim
+export EDITOR=nvim
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$(go env GOPATH)/bin:$PATH
@@ -87,6 +90,9 @@ alias luamake=/Users/starsu/stripe/lua-language-server/3rd/luamake/luamake
 
 # source Stripe stuff
 source ~/.stripe/shellinit/bash_profile
+
+# Install st to your path
+[ -x "$HOME/stripe/st/exe/st" ] && eval "$($HOME/stripe/st/exe/st shell)"
 
 # START - Managed by chef cookbook stripe_cpe_bin
 # alias tc='/usr/local/stripe/bin/test_cookbook'
