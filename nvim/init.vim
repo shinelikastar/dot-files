@@ -131,9 +131,6 @@ Plug 'rhysd/git-messenger.vim'	"look at git commits inline
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
-" Markdown
-Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}	" markdown preview with :Glow
-
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'	" display icons
