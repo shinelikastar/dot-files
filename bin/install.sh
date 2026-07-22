@@ -198,7 +198,7 @@ dotsay "@white setup .zshrc config"
 ln -sf ~/.dot-files/zshrc ~/.zshrc
 
 dotsay "@white setup .zsh directory"
-ln -sf ~/.dot-files/zsh ~/.zsh
+ln -sfn ~/.dot-files/zsh ~/.zsh
 
 dotsay "@white setup iterm2 preferences"
 # Load iTerm2 prefs from the dotfiles folder (supported "custom folder" feature).
@@ -212,13 +212,13 @@ dotsay "@white setup git preferences"
 ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
 
 dotsay "@white setup neovim config"
-ln -sf ~/.dot-files/nvim ~/.config/nvim
+ln -sfn ~/.dot-files/nvim ~/.config/nvim
 
 dotsay "@white setup tmuxinator"
-ln -sf ~/.dot-files/tmuxinator ~/.tmuxinator
+ln -sfn ~/.dot-files/tmuxinator ~/.tmuxinator
 
 dotsay "@white setup hammerspoon"
-ln -sf ~/.dot-files/hammerspoon/ ~/.hammerspoon
+ln -sfn ~/.dot-files/hammerspoon ~/.hammerspoon
 
 install_homebrew
 install_ripgrep
