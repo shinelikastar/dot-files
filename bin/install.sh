@@ -201,7 +201,12 @@ dotsay "@white setup .zsh directory"
 ln -sf ~/.dot-files/zsh ~/.zsh
 
 dotsay "@white setup iterm2 preferences"
-ln -sf ~/.dot-files/iterm2/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist 
+# Load iTerm2 prefs from the dotfiles folder (supported "custom folder" feature).
+# Avoids symlinking the plist into ~/Library/Preferences, which cfprefsd refuses
+# to write through and which drifts from the stored values.
+rm -f ~/Library/Preferences/com.googlecode.iterm2.plist
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/.dot-files/iterm2"
 
 dotsay "@white setup git preferences"
 ln -sf ~/.dot-files/git/gitconfig ~/.gitconfig
