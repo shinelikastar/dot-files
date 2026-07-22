@@ -95,7 +95,7 @@ call plug#begin('~/.local/nvim/plugins')
 Plug 'bluz71/vim-nightfly-guicolors'
 
 " Editing
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'master', 'do': ':TSUpdate'}
 Plug 'ggandor/lightspeed.nvim'		" successor to vim-sneak
 Plug 'tpope/vim-surround'		" cs`' to change `` to '', etc
 Plug 'tpope/vim-repeat'			" better . for plugins
@@ -138,7 +138,8 @@ Plug 'echasnovski/mini.icons'
 
 " Syntax checking
 Plug 'lukas-reineke/lsp-format.nvim'	" LSP format on save, with multiple sequential LSPs + async
-Plug 'jose-elias-alvarez/null-ls.nvim'	" LSP for formatting/diagnostics
+Plug 'nvimtools/none-ls.nvim'		" LSP for formatting/diagnostics (maintained null-ls fork)
+Plug 'nvimtools/none-ls-extras.nvim'	" eslint builtins, split out of none-ls core
 Plug 'hrsh7th/cmp-nvim-lsp'		" hot autocomplete plugin
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -158,7 +159,6 @@ Plug 'davidosomething/format-ts-errors.nvim' " better error formatting
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'SirVer/UltiSnips'
 Plug 'lukas-reineke/cmp-under-comparator'
 
 " Tests
@@ -451,9 +451,9 @@ lua <<EOF
 				only_local = "node_modules/.bin",
 			}),
 
-			null_ls.builtins.code_actions.eslint.with(eslintConfig),
-			null_ls.builtins.diagnostics.eslint.with(eslintConfig),
-			null_ls.builtins.formatting.eslint.with(eslintConfig),
+			require("none-ls.code_actions.eslint").with(eslintConfig),
+			require("none-ls.diagnostics.eslint").with(eslintConfig),
+			require("none-ls.formatting.eslint").with(eslintConfig),
 		}
 	})
 
@@ -543,7 +543,7 @@ lua <<EOF
     },
   })
 
-	lspconfig.sorbet.setup({
+	vim.lsp.config("sorbet", {
     on_attach = on_attach,
 		capabilities = lspCapabilities,
 		init_options = {
@@ -557,9 +557,10 @@ lua <<EOF
 			"--lsp",
 			"--enable-all-experimental-lsp-features",
 		},
-		root_dir = lspconfig.util.root_pattern("sorbet", ".git"),
+		root_markers = { "sorbet", ".git" },
 		settings = {},
 	})
+	vim.lsp.enable("sorbet")
 
   -- Templated off of https://github.com/sorbet/sorbet/blob/23836cbded86135219da1b204d79675a1615cc49/vscode_extension/src/SorbetStatusBarEntry.ts#L119
   vim.lsp.handlers["sorbet/showOperation"] = function(err, result, context, config)
