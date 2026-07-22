@@ -32,6 +32,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 ### END APIORI GO
 
+# Conductor
+export PATH="$HOME/conductor/.venv/bin:$PATH"
+
 # Cargo
 export PATH="/Users/starsu/.cargo/bin:$PATH"
 
@@ -99,3 +102,5 @@ source ~/.stripe/shellinit/bash_profile
 # alias cz='/usr/local/stripe/bin/chef-zero'
 # alias cookit='tc && cz'
 # STOP - Managed by chef cookbook stripe_cpe_bin
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
